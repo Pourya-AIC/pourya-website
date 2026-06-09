@@ -108,11 +108,51 @@
       box-shadow: 0 4px 24px rgba(184,114,48,.08);
     }
 
+    /* ── Form inputs (contact + waitlist) ── */
+    .form-input {
+      width: 100%;
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(255,255,255,.15);
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: .875rem;
+      padding: .75rem 1rem;
+      transition: border-color .2s, background .2s;
+      outline: none;
+      appearance: none;
+    }
+    .form-input::placeholder { color: rgba(255,255,255,.3); }
+    .form-input:focus { border-color: rgba(184,114,48,.65); background: rgba(255,255,255,.1); }
+    .form-label {
+      display: block;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: .6875rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.45);
+      margin-bottom: .45rem;
+    }
+    .waitlist-input {
+      flex: 1;
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.2);
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: .875rem;
+      padding: .75rem 1rem;
+      outline: none;
+      transition: border-color .2s;
+      min-width: 0;
+    }
+    .waitlist-input::placeholder { color: rgba(255,255,255,.4); }
+    .waitlist-input:focus { border-color: rgba(184,114,48,.65); }
+
     /* ── Reduced motion ── */
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { transition: none !important; }
     }
   </style>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 </head>
 
 <body>
@@ -534,6 +574,39 @@
 
 
 <!-- ═══════════════════════════════════════════
+     NEWSLETTER / WAITLIST
+═══════════════════════════════════════════ -->
+<section class="bg-teal py-16">
+  <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-8">
+    <div class="flex-shrink-0">
+      <h3 class="font-grotesk font-bold text-white text-xl mb-1">Stay in the loop.</h3>
+      <p class="font-inter text-white/65 text-sm">Occasional insights on AI in industrial engineering. No spam.</p>
+    </div>
+    <form id="waitlist-form" class="flex gap-0 w-full md:max-w-md" novalidate>
+      <input
+        id="waitlist-email"
+        type="email"
+        placeholder="your@email.com"
+        required
+        class="waitlist-input"
+        aria-label="Your email address"
+      />
+      <button
+        id="waitlist-submit"
+        type="submit"
+        class="font-grotesk font-semibold bg-copper hover:bg-amber-700 text-white text-xs tracking-widest uppercase px-6 py-3 flex-shrink-0 transition-colors duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+        style="letter-spacing:.12em;"
+      >
+        Subscribe
+      </button>
+    </form>
+    <div id="waitlist-success" class="hidden font-inter text-white text-sm font-medium">You're in — thanks!</div>
+    <div id="waitlist-error"   class="hidden font-inter text-copper/90 text-sm"></div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
      06 · CONTACT / CTA
 ═══════════════════════════════════════════ -->
 <section id="contact" class="bg-navy py-24 lg:py-36">
@@ -552,22 +625,42 @@
         If you work in EPC, Oil &amp; Gas, Petrochemical, or industrial asset management and you're thinking seriously about AI in your workflows — let's have a direct, no-jargon conversation about where it realistically moves the needle for your team.
       </p>
 
-      <div class="flex flex-wrap gap-4 mb-14">
-        <a
-          href="mailto:pourya.gheitarani@gmail.com"
-          class="font-grotesk font-semibold bg-copper hover:bg-amber-700 text-white px-8 py-3.5 text-sm tracking-wide transition-colors duration-200 cursor-pointer"
-        >
-          Send an Email
-        </a>
-        <a
-          href="https://www.linkedin.com/in/pourya-gheitarani"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="font-grotesk font-medium border border-white/30 hover:border-white/70 text-white px-8 py-3.5 text-sm tracking-wide transition-colors duration-200 cursor-pointer"
-        >
-          Connect on LinkedIn
-        </a>
-      </div>
+      <!-- Contact form -->
+      <form id="contact-form" class="mb-10 space-y-5" novalidate>
+        <div class="grid sm:grid-cols-2 gap-5">
+          <div>
+            <label for="contact-name" class="form-label">Name</label>
+            <input id="contact-name" type="text" placeholder="Your name" class="form-input" />
+          </div>
+          <div>
+            <label for="contact-email" class="form-label">Email <span class="text-copper">*</span></label>
+            <input id="contact-email" type="email" placeholder="your@email.com" required class="form-input" />
+          </div>
+        </div>
+        <div>
+          <label for="contact-message" class="form-label">Message <span class="text-copper">*</span></label>
+          <textarea id="contact-message" rows="4" placeholder="What would you like to discuss?" required class="form-input resize-none"></textarea>
+        </div>
+        <div class="flex flex-wrap items-center gap-5">
+          <button
+            id="contact-submit"
+            type="submit"
+            class="font-grotesk font-semibold bg-copper hover:bg-amber-700 text-white px-8 py-3.5 text-sm tracking-wide transition-colors duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            Send Message
+          </button>
+          <a
+            href="https://www.linkedin.com/in/pourya-gheitarani"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="font-grotesk font-medium border border-white/30 hover:border-white/70 text-white px-8 py-3.5 text-sm tracking-wide transition-colors duration-200 cursor-pointer"
+          >
+            Connect on LinkedIn
+          </a>
+        </div>
+        <p id="contact-success" class="hidden font-inter text-sm" style="color:#6ee7b7;">Message sent — I'll be in touch shortly.</p>
+        <p id="contact-error"   class="hidden font-inter text-sm text-red-400">Something went wrong. Please try again or email me directly.</p>
+      </form>
 
       <!-- Contact details -->
       <div class="pt-8 border-t border-white/10 space-y-3">
@@ -651,6 +744,80 @@
       ? '0 4px 24px rgba(0,0,0,.35)'
       : 'none';
   }, { passive: true });
+
+  // ── Supabase ──────────────────────────────────
+  const { createClient } = window.supabase;
+  const sb = createClient(
+    'https://dwxetzlfuzvsmwpllxbq.supabase.co',
+    'sb_publishable_TwqMhhFgL9jNZPoYXOZ0QA_YSnkg0nc'
+  );
+
+  // Analytics — log page visit silently
+  (async () => {
+    try {
+      await sb.from('page_visits').insert({
+        page:       window.location.pathname || '/',
+        referrer:   document.referrer || null,
+        user_agent: navigator.userAgent
+      });
+    } catch (_) {}
+  })();
+
+  // Contact form
+  document.getElementById('contact-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const submitBtn = document.getElementById('contact-submit');
+    const success   = document.getElementById('contact-success');
+    const error     = document.getElementById('contact-error');
+
+    submitBtn.disabled    = true;
+    submitBtn.textContent = 'Sending…';
+    success.classList.add('hidden');
+    error.classList.add('hidden');
+
+    const { error: err } = await sb.from('contact_messages').insert({
+      name:    document.getElementById('contact-name').value.trim()    || null,
+      email:   document.getElementById('contact-email').value.trim(),
+      message: document.getElementById('contact-message').value.trim()
+    });
+
+    if (err) {
+      error.classList.remove('hidden');
+    } else {
+      success.classList.remove('hidden');
+      e.target.reset();
+    }
+    submitBtn.disabled    = false;
+    submitBtn.textContent = 'Send Message';
+  });
+
+  // Waitlist / newsletter form
+  document.getElementById('waitlist-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const submitBtn = document.getElementById('waitlist-submit');
+    const success   = document.getElementById('waitlist-success');
+    const error     = document.getElementById('waitlist-error');
+
+    submitBtn.disabled    = true;
+    submitBtn.textContent = 'Subscribing…';
+    success.classList.add('hidden');
+    error.classList.add('hidden');
+
+    const email = document.getElementById('waitlist-email').value.trim();
+    const { error: err } = await sb.from('waitlist').insert({ email });
+
+    if (err) {
+      error.textContent = err.code === '23505'
+        ? 'This email is already subscribed.'
+        : 'Something went wrong. Please try again.';
+      error.classList.remove('hidden');
+    } else {
+      success.classList.remove('hidden');
+      document.getElementById('waitlist-form').classList.add('hidden');
+    }
+    submitBtn.disabled    = false;
+    submitBtn.textContent = 'Subscribe';
+  });
 </script>
 
 </body>
