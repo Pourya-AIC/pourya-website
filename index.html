@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pourya Gheitarani — Engineering & AI Consultant</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Serif+Display:ital@0;1&display=swap"
+    rel="stylesheet"
+  />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            navy:    '#1A3A52',
+            teal:    '#1E6B6B',
+            copper:  '#B87230',
+            offwhite:'#F5F2EC',
+            charcoal:'#1E1E24',
+            stone:   '#E4E0D8',
+          },
+          fontFamily: {
+            grotesk: ['"Space Grotesk"', 'sans-serif'],
+            inter:   ['"Inter"', 'sans-serif'],
+            display: ['"DM Serif Display"', 'serif'],
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html  { scroll-behavior: smooth; }
+    body  { font-family: 'Inter', sans-serif; background: #F5F2EC; color: #1E1E24; overflow-x: hidden; }
+
+    /* ── Engineering grid overlay on hero ── */
+    .hero-grid {
+      background-color: #1A3A52;
+      background-image:
+        linear-gradient(rgba(30,107,107,.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(30,107,107,.07) 1px, transparent 1px);
+      background-size: 56px 56px;
+    }
+
+    /* ── Copper rule ── */
+    .rule-copper { width: 48px; height: 3px; background: #B87230; }
+
+    /* ── Capability card hover underline ── */
+    .cap-line { width: 32px; height: 2px; background: #B87230; transition: width .3s ease; }
+    .cap-card:hover .cap-line { width: 64px; }
+
+    /* ── Nav link underline animation ── */
+    .nav-link {
+      position: relative;
+      color: rgba(255,255,255,.65);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: .8125rem;
+      letter-spacing: .04em;
+      transition: color .2s;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      left: 0; bottom: -2px;
+      width: 0; height: 1px;
+      background: #B87230;
+      transition: width .25s ease;
+    }
+    .nav-link:hover { color: #fff; }
+    .nav-link:hover::after { width: 100%; }
+
+    /* ── Section label ── */
+    .section-label {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: .6875rem;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: #1E6B6B;
+    }
+
+    /* ── Spaced monogram PG for large decorative bg ── */
+    .hero-watermark {
+      position: absolute;
+      right: -60px; bottom: -80px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 320px;
+      line-height: 1;
+      color: rgba(30,107,107,.06);
+      pointer-events: none;
+      user-select: none;
+    }
+
+    /* ── Value row hover ── */
+    .value-row { transition: background .18s; }
+    .value-row:hover { background: rgba(26,58,82,.04); }
+
+    /* ── Message card ── */
+    .msg-card {
+      background: #F5F2EC;
+      border: 1px solid #E4E0D8;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .msg-card:hover {
+      border-color: rgba(184,114,48,.4);
+      box-shadow: 0 4px 24px rgba(184,114,48,.08);
+    }
+
+    /* ── Reduced motion ── */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition: none !important; }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- ═══════════════════════════════════════════
+     NAVBAR
+═══════════════════════════════════════════ -->
+<nav
+  class="fixed top-0 left-0 right-0 z-50 bg-navy/95 backdrop-blur-sm border-b border-white/10"
+  role="navigation"
+  aria-label="Primary navigation"
+>
+  <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+
+    <!-- Logo mark -->
+    <a href="#" class="flex items-center gap-3 cursor-pointer group" aria-label="Pourya Gheitarani — home">
+      <div class="flex-shrink-0" aria-hidden="true">
+        <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" role="img">
+          <rect width="36" height="36" fill="#1A3A52"/>
+          <!-- Teal left stripe -->
+          <rect width="5" height="36" fill="#1E6B6B"/>
+          <!-- Copper bottom-right accent -->
+          <rect x="27" y="27" width="9" height="9" fill="#B87230"/>
+          <!-- PG initials -->
+          <text x="8" y="25" font-family="Space Grotesk, sans-serif" font-weight="700" font-size="16" fill="white">PG</text>
+        </svg>
+      </div>
+      <div>
+        <div class="font-grotesk font-semibold text-white text-sm tracking-widest uppercase">Pourya Gheitarani</div>
+        <div class="font-grotesk text-teal text-xs tracking-wider uppercase" style="letter-spacing:.16em;">Engineering &amp; AI Consultant</div>
+      </div>
+    </a>
+
+    <!-- Desktop nav -->
+    <div class="hidden md:flex items-center gap-8" role="list">
+      <a href="#about"    class="nav-link cursor-pointer" role="listitem">About</a>
+      <a href="#expertise" class="nav-link cursor-pointer" role="listitem">Expertise</a>
+      <a href="#values"   class="nav-link cursor-pointer" role="listitem">Values</a>
+      <a
+        href="#contact"
+        class="font-grotesk font-medium bg-copper hover:bg-amber-700 text-white text-xs tracking-widest uppercase px-6 py-2.5 transition-colors duration-200 cursor-pointer"
+        style="letter-spacing:.12em;"
+      >
+        Work With Me
+      </a>
+    </div>
+
+    <!-- Mobile menu button -->
+    <button
+      id="mobile-menu-btn"
+      class="md:hidden text-white cursor-pointer p-1"
+      aria-label="Open navigation menu"
+      aria-expanded="false"
+    >
+      <svg id="icon-open"  width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      <svg id="icon-close" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" class="hidden"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+
+  <!-- Mobile drawer -->
+  <div id="mobile-menu" class="hidden md:hidden bg-navy border-t border-white/10 px-6 py-6 space-y-5">
+    <a href="#about"     class="block font-grotesk text-white/70 hover:text-white text-sm cursor-pointer" onclick="closeMobileMenu()">About</a>
+    <a href="#expertise" class="block font-grotesk text-white/70 hover:text-white text-sm cursor-pointer" onclick="closeMobileMenu()">Expertise</a>
+    <a href="#values"    class="block font-grotesk text-white/70 hover:text-white text-sm cursor-pointer" onclick="closeMobileMenu()">Values</a>
+    <a href="#contact"   class="inline-block font-grotesk font-medium bg-copper text-white text-xs tracking-widest uppercase px-6 py-2.5 cursor-pointer" onclick="closeMobileMenu()">Work With Me</a>
+  </div>
+</nav>
+
+
+<!-- ═══════════════════════════════════════════
+     HERO
+═══════════════════════════════════════════ -->
+<section class="hero-grid relative min-h-screen flex flex-col justify-center pt-16 overflow-hidden">
+
+  <!-- Watermark -->
+  <div class="hero-watermark" aria-hidden="true">PG</div>
+
+  <div class="max-w-6xl mx-auto px-6 py-28 lg:py-40 relative z-10">
+    <div class="max-w-3xl">
+
+      <!-- Location label -->
+      <p class="section-label mb-8" style="color:rgba(30,107,107,.9);">
+        Dubai, UAE &nbsp;·&nbsp; Oil &amp; Gas &nbsp;·&nbsp; Petrochemical &nbsp;·&nbsp; Industrial
+      </p>
+
+      <!-- Name -->
+      <h1 class="font-grotesk font-bold text-white leading-[1.05] mb-6"
+          style="font-size: clamp(2.75rem, 7vw, 5.5rem);">
+        Pourya<br>Gheitarani
+      </h1>
+
+      <!-- Tagline — DM Serif Display italic in copper, brand-specified for hero only -->
+      <p class="font-display italic text-copper leading-relaxed mb-5"
+         style="font-size: clamp(1.3rem, 3.2vw, 2rem);">
+        "Grounded in Engineering.<br>Driven by Intelligence."
+      </p>
+
+      <!-- Role descriptor -->
+      <p class="font-inter text-white/55 text-base lg:text-lg mb-14 leading-relaxed">
+        Engineering &amp; AI-Enabled Industrial Consultant<br>
+        Project Manager (Sales) · 17+ Years in the Field
+      </p>
+
+      <!-- CTAs -->
+      <div class="flex flex-wrap gap-4">
+        <a
+          href="#contact"
+          class="font-grotesk font-semibold bg-copper hover:bg-amber-700 text-white px-8 py-3.5 text-sm tracking-wide transition-colors duration-200 cursor-pointer"
+        >
+          Start a Conversation
+        </a>
+        <a
+          href="#about"
+          class="font-grotesk font-medium border border-white/30 hover:border-white/70 text-white px-8 py-3.5 text-sm tracking-wide transition-colors duration-200 cursor-pointer"
+        >
+          Read My Story
+        </a>
+      </div>
+    </div>
+
+    <!-- Stats strip -->
+    <div class="mt-20 pt-10 border-t border-white/10 grid grid-cols-2 sm:grid-cols-4 gap-8">
+      <div>
+        <div class="font-grotesk font-bold text-copper text-3xl">17+</div>
+        <div class="font-inter text-white/45 text-sm mt-1">Years in Oil &amp; Gas</div>
+      </div>
+      <div>
+        <div class="font-grotesk font-bold text-copper text-3xl">EPC</div>
+        <div class="font-inter text-white/45 text-sm mt-1">Project Execution</div>
+      </div>
+      <div>
+        <div class="font-grotesk font-bold text-copper text-3xl">AI</div>
+        <div class="font-inter text-white/45 text-sm mt-1">Industrial Integration</div>
+      </div>
+      <div>
+        <div class="font-grotesk font-bold text-copper text-3xl">KSB</div>
+        <div class="font-inter text-white/45 text-sm mt-1">Current Organization</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     01 · ABOUT / WHO I AM
+═══════════════════════════════════════════ -->
+<section id="about" class="bg-offwhite py-24 lg:py-36">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="grid lg:grid-cols-2 gap-16 xl:gap-24 items-start">
+
+      <!-- Left -->
+      <div>
+        <p class="section-label mb-4">0 1 &nbsp;·&nbsp; W H O &nbsp; I &nbsp; A M</p>
+        <div class="rule-copper mb-8"></div>
+        <h2 class="font-grotesk font-bold text-navy leading-[1.1] mb-8"
+            style="font-size: clamp(2rem, 4vw, 3.25rem);">
+          Engineering meets<br>
+          <span class="text-teal">commercial intelligence.</span>
+        </h2>
+
+        <blockquote class="border-l-4 border-copper pl-6 mb-10">
+          <p class="font-display italic text-charcoal text-xl leading-relaxed">
+            "I help Oil &amp; Gas and Petrochemical companies achieve high-value project wins and seamless execution — bridging deep technical knowledge with commercial intelligence to deliver results others can't."
+          </p>
+        </blockquote>
+
+        <a
+          href="#contact"
+          class="inline-flex items-center gap-2 font-grotesk font-medium text-copper hover:text-amber-700 text-sm tracking-wide border-b border-copper pb-0.5 transition-colors duration-200 cursor-pointer"
+        >
+          Let's talk
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+
+      <!-- Right -->
+      <div>
+        <div class="space-y-5 mb-8">
+          <p class="font-inter text-charcoal/80 text-base leading-[1.8]">
+            I'm a Sales Project Manager operating at the intersection of engineering and commerce in the energy and industrial sector. Based in Dubai, I bring a rare combination: the technical literacy to earn a client's trust, and the commercial sharpness to convert that trust into results.
+          </p>
+          <p class="font-inter text-charcoal/80 text-base leading-[1.8]">
+            Where others see complexity, I see a problem worth solving — and a deal worth winning the right way.
+          </p>
+          <p class="font-inter text-charcoal/80 text-base leading-[1.8]">
+            Every project has a decision-making gap — a moment where the team has the knowledge and leadership needs the answer, but the translation is slow, manual, or lost. I became obsessed with closing that gap using practical AI tools that are field-tested and grounded in how industrial operations actually run.
+          </p>
+        </div>
+
+        <!-- Tags -->
+        <div class="flex flex-wrap gap-2 pt-2">
+          <span class="font-grotesk text-xs text-teal bg-teal/10 border border-teal/20 px-3 py-1.5 tracking-wide">Oil &amp; Gas</span>
+          <span class="font-grotesk text-xs text-teal bg-teal/10 border border-teal/20 px-3 py-1.5 tracking-wide">Petrochemical</span>
+          <span class="font-grotesk text-xs text-teal bg-teal/10 border border-teal/20 px-3 py-1.5 tracking-wide">EPC Projects</span>
+          <span class="font-grotesk text-xs text-teal bg-teal/10 border border-teal/20 px-3 py-1.5 tracking-wide">AI Integration</span>
+          <span class="font-grotesk text-xs text-teal bg-teal/10 border border-teal/20 px-3 py-1.5 tracking-wide">Commercial Strategy</span>
+          <span class="font-grotesk text-xs text-teal bg-teal/10 border border-teal/20 px-3 py-1.5 tracking-wide">Project Management</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     02 · WHAT I BRING / EXPERTISE
+═══════════════════════════════════════════ -->
+<section id="expertise" class="bg-navy py-24 lg:py-36">
+  <div class="max-w-6xl mx-auto px-6">
+
+    <div class="mb-16">
+      <p class="section-label mb-4" style="color:#1E6B6B;">0 2 &nbsp;·&nbsp; W H A T &nbsp; I &nbsp; B R I N G</p>
+      <div class="rule-copper mb-8"></div>
+      <h2 class="font-grotesk font-bold text-white leading-[1.1] max-w-lg"
+          style="font-size: clamp(2rem, 4vw, 3.25rem);">
+        Four capabilities.<br>One rare combination.
+      </h2>
+    </div>
+
+    <!-- 2×2 grid with hairline separators -->
+    <div class="grid md:grid-cols-2 divide-y divide-white/10 md:divide-y-0">
+      <div class="md:divide-x md:divide-white/10 md:col-span-2 md:grid md:grid-cols-2">
+
+        <!-- 01 Negotiation Intelligence -->
+        <div class="cap-card p-10 md:p-12 border-b border-white/10 cursor-default">
+          <p class="font-grotesk text-copper text-xs tracking-widest uppercase mb-5" style="letter-spacing:.2em;">01</p>
+          <h3 class="font-grotesk font-semibold text-white text-xl mb-4">Negotiation Intelligence</h3>
+          <p class="font-inter text-white/55 text-sm leading-relaxed">
+            I find the leverage others overlook — and use it with precision and respect. Strategic sourcing and commercial execution that consistently outperforms standard benchmarks without compromising quality or relationships.
+          </p>
+          <div class="cap-line mt-8"></div>
+        </div>
+
+        <!-- 02 Engineering Fluency -->
+        <div class="cap-card p-10 md:p-12 border-b border-white/10 md:border-l border-white/10 cursor-default">
+          <p class="font-grotesk text-copper text-xs tracking-widest uppercase mb-5" style="letter-spacing:.2em;">02</p>
+          <h3 class="font-grotesk font-semibold text-white text-xl mb-4">Engineering Fluency</h3>
+          <p class="font-inter text-white/55 text-sm leading-relaxed">
+            Technical depth that builds credibility with clients no slide deck ever could. I speak the language of the plant — and translate it into strategy that leadership can act on.
+          </p>
+          <div class="cap-line mt-8"></div>
+        </div>
+
+        <!-- 03 Commercial Instinct -->
+        <div class="cap-card p-10 md:p-12 md:border-t border-white/10 cursor-default">
+          <p class="font-grotesk text-copper text-xs tracking-widest uppercase mb-5" style="letter-spacing:.2em;">03</p>
+          <h3 class="font-grotesk font-semibold text-white text-xl mb-4">Commercial Instinct</h3>
+          <p class="font-inter text-white/55 text-sm leading-relaxed">
+            Translating complex technical requirements into strategies that win business and deliver value. AI concepts into EPC language. Engineering reality into AI opportunity — always grounded in field constraints.
+          </p>
+          <div class="cap-line mt-8"></div>
+        </div>
+
+        <!-- 04 Coaching Mindset -->
+        <div class="cap-card p-10 md:p-12 md:border-t md:border-l border-white/10 cursor-default">
+          <p class="font-grotesk text-copper text-xs tracking-widest uppercase mb-5" style="letter-spacing:.2em;">04</p>
+          <h3 class="font-grotesk font-semibold text-white text-xl mb-4">Coaching Mindset</h3>
+          <p class="font-inter text-white/55 text-sm leading-relaxed">
+            Honed as a national-level ski athlete and youth coach — I develop people, not just projects. The best outcomes come from teams that understand the why behind every decision.
+          </p>
+          <div class="cap-line mt-8"></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     03 · VALUES / WHAT I STAND FOR
+═══════════════════════════════════════════ -->
+<section id="values" class="bg-offwhite py-24 lg:py-36">
+  <div class="max-w-6xl mx-auto px-6">
+
+    <div class="mb-16">
+      <p class="section-label mb-4">0 3 &nbsp;·&nbsp; W H A T &nbsp; I &nbsp; S T A N D &nbsp; F O R</p>
+      <div class="rule-copper mb-8"></div>
+      <h2 class="font-grotesk font-bold text-navy leading-[1.1] max-w-lg"
+          style="font-size: clamp(2rem, 4vw, 3.25rem);">
+        Principles that guide<br>every engagement.
+      </h2>
+    </div>
+
+    <div class="divide-y divide-stone">
+
+      <div class="value-row py-8 px-2 flex items-start gap-8 lg:gap-16 cursor-default">
+        <span class="font-grotesk font-bold text-copper text-2xl w-10 flex-shrink-0 mt-0.5">01</span>
+        <div class="flex-1 lg:flex lg:items-baseline lg:gap-12">
+          <h3 class="font-grotesk font-semibold text-navy uppercase tracking-wider text-sm mb-2 lg:mb-0 lg:w-56 flex-shrink-0">Dignity Over Money</h3>
+          <p class="font-inter text-charcoal/70 text-base leading-relaxed">Integrity is non-negotiable. The best deals are ones both sides are proud of.</p>
+        </div>
+      </div>
+
+      <div class="value-row py-8 px-2 flex items-start gap-8 lg:gap-16 cursor-default">
+        <span class="font-grotesk font-bold text-copper text-2xl w-10 flex-shrink-0 mt-0.5">02</span>
+        <div class="flex-1 lg:flex lg:items-baseline lg:gap-12">
+          <h3 class="font-grotesk font-semibold text-navy uppercase tracking-wider text-sm mb-2 lg:mb-0 lg:w-56 flex-shrink-0">Solution Oriented</h3>
+          <p class="font-inter text-charcoal/70 text-base leading-relaxed">Every challenge has a path forward. I stay in the problem until I find it.</p>
+        </div>
+      </div>
+
+      <div class="value-row py-8 px-2 flex items-start gap-8 lg:gap-16 cursor-default">
+        <span class="font-grotesk font-bold text-copper text-2xl w-10 flex-shrink-0 mt-0.5">03</span>
+        <div class="flex-1 lg:flex lg:items-baseline lg:gap-12">
+          <h3 class="font-grotesk font-semibold text-navy uppercase tracking-wider text-sm mb-2 lg:mb-0 lg:w-56 flex-shrink-0">People First</h3>
+          <p class="font-inter text-charcoal/70 text-base leading-relaxed">Supportive, approachable, and rooted in genuine relationships — at work and at home.</p>
+        </div>
+      </div>
+
+      <div class="value-row py-8 px-2 flex items-start gap-8 lg:gap-16 cursor-default">
+        <span class="font-grotesk font-bold text-copper text-2xl w-10 flex-shrink-0 mt-0.5">04</span>
+        <div class="flex-1 lg:flex lg:items-baseline lg:gap-12">
+          <h3 class="font-grotesk font-semibold text-navy uppercase tracking-wider text-sm mb-2 lg:mb-0 lg:w-56 flex-shrink-0">Engineering First Thinking</h3>
+          <p class="font-inter text-charcoal/70 text-base leading-relaxed">AI must serve engineering reality, not replace it. Practical over perfect — always.</p>
+        </div>
+      </div>
+
+      <div class="value-row py-8 px-2 flex items-start gap-8 lg:gap-16 cursor-default">
+        <span class="font-grotesk font-bold text-copper text-2xl w-10 flex-shrink-0 mt-0.5">05</span>
+        <div class="flex-1 lg:flex lg:items-baseline lg:gap-12">
+          <h3 class="font-grotesk font-semibold text-navy uppercase tracking-wider text-sm mb-2 lg:mb-0 lg:w-56 flex-shrink-0">Clarity Over Complexity</h3>
+          <p class="font-inter text-charcoal/70 text-base leading-relaxed">Simplifying technical and digital transformation topics so teams can act — not just understand.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     04 · A DEFINING MOMENT
+═══════════════════════════════════════════ -->
+<section class="bg-navy py-24 lg:py-36 relative overflow-hidden">
+
+  <!-- Decorative large quote mark -->
+  <div
+    class="absolute right-12 top-8 font-display text-white/[0.03] select-none pointer-events-none"
+    style="font-size:320px; line-height:1;"
+    aria-hidden="true"
+  >"</div>
+
+  <div class="max-w-6xl mx-auto px-6 relative z-10">
+    <p class="section-label mb-4" style="color:#1E6B6B;">0 4 &nbsp;·&nbsp; A &nbsp; D E F I N I N G &nbsp; M O M E N T</p>
+    <div class="rule-copper mb-12"></div>
+
+    <div class="max-w-3xl">
+      <blockquote>
+        <p class="font-display italic text-white text-xl lg:text-2xl leading-[1.7]">
+          "On a complex project where conventional sourcing had hit a ceiling, I identified an unconventional network of sub-vendors others had overlooked. Through strategic negotiation and precise market intelligence, we generated a profit outcome that significantly outperformed standard benchmarks — without compromising quality, timelines, or relationships."
+        </p>
+        <footer class="mt-8">
+          <p class="font-grotesk text-copper text-xs tracking-widest uppercase" style="letter-spacing:.2em;">
+            Strategic Sourcing &nbsp;·&nbsp; Negotiation &nbsp;·&nbsp; Commercial Execution
+          </p>
+        </footer>
+      </blockquote>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     05 · KEY MESSAGES
+═══════════════════════════════════════════ -->
+<section class="bg-stone py-24 lg:py-36">
+  <div class="max-w-6xl mx-auto px-6">
+
+    <div class="mb-16">
+      <p class="section-label mb-4">0 5 &nbsp;·&nbsp; K E Y &nbsp; M E S S A G E S</p>
+      <div class="rule-copper mb-8"></div>
+      <h2 class="font-grotesk font-bold text-navy leading-[1.1] max-w-lg"
+          style="font-size: clamp(2rem, 4vw, 3.25rem);">
+        What I believe.<br>What I deliver.
+      </h2>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+
+      <div class="msg-card p-8 cursor-default">
+        <div class="rule-copper mb-6"></div>
+        <p class="font-grotesk font-semibold text-navy text-base leading-snug">
+          AI must serve engineering reality — not the other way around.
+        </p>
+      </div>
+
+      <div class="msg-card p-8 cursor-default">
+        <div class="rule-copper mb-6"></div>
+        <p class="font-grotesk font-semibold text-navy text-base leading-snug">
+          17+ years in the field means I know exactly where AI adds value — and where it doesn't.
+        </p>
+      </div>
+
+      <div class="msg-card p-8 cursor-default">
+        <div class="rule-copper mb-6"></div>
+        <p class="font-grotesk font-semibold text-navy text-base leading-snug">
+          I translate AI into project management language — and project reality into AI opportunity.
+        </p>
+      </div>
+
+      <div class="msg-card p-8 cursor-default">
+        <div class="rule-copper mb-6"></div>
+        <p class="font-grotesk font-semibold text-navy text-base leading-snug">
+          The goal is not digital transformation — it's better outcomes: safer, faster, stronger.
+        </p>
+      </div>
+
+      <div class="msg-card p-8 md:col-span-2 lg:col-span-2 cursor-default">
+        <div class="rule-copper mb-6"></div>
+        <p class="font-grotesk font-semibold text-navy text-base leading-snug">
+          Practical over perfect. A working AI solution in the field beats a flawless proof-of-concept — every time.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     06 · CONTACT / CTA
+═══════════════════════════════════════════ -->
+<section id="contact" class="bg-navy py-24 lg:py-36">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="max-w-2xl">
+
+      <p class="section-label mb-4" style="color:#1E6B6B;">0 6 &nbsp;·&nbsp; L E T ' S &nbsp; T A L K</p>
+      <div class="rule-copper mb-8"></div>
+
+      <h2 class="font-grotesk font-bold text-white leading-[1.1] mb-6"
+          style="font-size: clamp(2rem, 4vw, 3.25rem);">
+        No pitch.<br>Just a direct conversation.
+      </h2>
+
+      <p class="font-inter text-white/55 text-base leading-[1.8] mb-10">
+        If you work in EPC, Oil &amp; Gas, Petrochemical, or industrial asset management and you're thinking seriously about AI in your workflows — let's have a direct, no-jargon conversation about where it realistically moves the needle for your team.
+      </p>
+
+      <div class="flex flex-wrap gap-4 mb-14">
+        <a
+          href="mailto:pourya.gheitarani@gmail.com"
+          class="font-grotesk font-semibold bg-copper hover:bg-amber-700 text-white px-8 py-3.5 text-sm tracking-wide transition-colors duration-200 cursor-pointer"
+        >
+          Send an Email
+        </a>
+        <a
+          href="https://www.linkedin.com/in/pourya-gheitarani"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="font-grotesk font-medium border border-white/30 hover:border-white/70 text-white px-8 py-3.5 text-sm tracking-wide transition-colors duration-200 cursor-pointer"
+        >
+          Connect on LinkedIn
+        </a>
+      </div>
+
+      <!-- Contact details -->
+      <div class="pt-8 border-t border-white/10 space-y-3">
+        <div class="flex items-center gap-3 text-white/40 text-sm font-inter">
+          <!-- Location icon -->
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="flex-shrink-0 text-teal"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span>Dubai, UAE &nbsp;·&nbsp; Available for consulting engagements globally</span>
+        </div>
+        <div class="flex items-center gap-3 text-white/40 text-sm font-inter">
+          <!-- Industry icon -->
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="flex-shrink-0 text-teal"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>
+          <span>Oil &amp; Gas &nbsp;·&nbsp; Petrochemical &nbsp;·&nbsp; KSB SE &amp; Co. KGaA</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════════ -->
+<footer class="bg-charcoal py-8 border-t border-white/5">
+  <div class="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-5">
+
+    <!-- Logo + tagline -->
+    <div class="flex items-center gap-3">
+      <svg width="28" height="28" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <rect width="36" height="36" fill="#1A3A52"/>
+        <rect width="5" height="36" fill="#1E6B6B"/>
+        <rect x="27" y="27" width="9" height="9" fill="#B87230"/>
+        <text x="8" y="25" font-family="Space Grotesk, sans-serif" font-weight="700" font-size="16" fill="white">PG</text>
+      </svg>
+      <div>
+        <div class="font-grotesk font-semibold text-white text-xs tracking-widest uppercase">Pourya Gheitarani</div>
+        <div class="font-inter italic text-white/35 text-xs">Grounded in Engineering. Driven by Intelligence.</div>
+      </div>
+    </div>
+
+    <p class="font-inter text-white/25 text-xs text-center sm:text-right">
+      &copy; 2025 Pourya Gheitarani &nbsp;·&nbsp; All rights reserved.
+    </p>
+  </div>
+</footer>
+
+
+<!-- ═══════════════════════════════════════════
+     SCRIPTS
+═══════════════════════════════════════════ -->
+<script>
+  // Mobile menu toggle
+  const btn   = document.getElementById('mobile-menu-btn');
+  const menu  = document.getElementById('mobile-menu');
+  const open  = document.getElementById('icon-open');
+  const close = document.getElementById('icon-close');
+
+  function closeMobileMenu() {
+    menu.classList.add('hidden');
+    open.classList.remove('hidden');
+    close.classList.add('hidden');
+    btn.setAttribute('aria-expanded', 'false');
+  }
+
+  btn.addEventListener('click', () => {
+    const expanded = btn.getAttribute('aria-expanded') === 'true';
+    if (expanded) {
+      closeMobileMenu();
+    } else {
+      menu.classList.remove('hidden');
+      open.classList.add('hidden');
+      close.classList.remove('hidden');
+      btn.setAttribute('aria-expanded', 'true');
+    }
+  });
+
+  // Navbar scroll shadow
+  const nav = document.querySelector('nav');
+  window.addEventListener('scroll', () => {
+    nav.style.boxShadow = window.scrollY > 8
+      ? '0 4px 24px rgba(0,0,0,.35)'
+      : 'none';
+  }, { passive: true });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,4 @@
+# Keep confidential documents out of version control
+*.pdf
+*.docx
+*.doc
