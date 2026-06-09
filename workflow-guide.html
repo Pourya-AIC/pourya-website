@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Website Creation Workflow Guide — Pourya Gheitarani</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet"/>
+<style>
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; }
+body { font-family: 'Inter', sans-serif; background: #F5F2EC; color: #1E1E24; line-height: 1.6; }
+
+/* ── Brand tokens ── */
+:root {
+  --navy:     #1A3A52;
+  --teal:     #1E6B6B;
+  --copper:   #B87230;
+  --offwhite: #F5F2EC;
+  --charcoal: #1E1E24;
+  --stone:    #E4E0D8;
+  --white:    #ffffff;
+}
+
+/* ── Typography ── */
+.font-grotesk  { font-family: 'Space Grotesk', sans-serif; }
+.font-inter    { font-family: 'Inter', sans-serif; }
+.font-display  { font-family: 'DM Serif Display', serif; }
+
+/* ── Page shell ── */
+.page {
+  width: 210mm;
+  min-height: 297mm;
+  margin: 0 auto 32px;
+  background: var(--offwhite);
+  position: relative;
+  overflow: hidden;
+  page-break-after: always;
+}
+
+/* ── Cover ── */
+.cover {
+  background: var(--navy);
+  background-image:
+    linear-gradient(rgba(30,107,107,.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(30,107,107,.08) 1px, transparent 1px);
+  background-size: 48px 48px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 52px 52px 40px;
+  color: white;
+}
+
+/* ── Section page ── */
+.section-page { padding: 48px 52px; }
+.section-page.dark { background: var(--navy); color: white; }
+.section-page.teal-bg { background: var(--teal); color: white; }
+.section-page.stone-bg { background: var(--stone); }
+
+/* ── Copper rule ── */
+.rule { width: 48px; height: 3px; background: var(--copper); margin-bottom: 28px; }
+
+/* ── Step label ── */
+.step-label {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 10px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 12px;
+}
+.step-label.light { color: rgba(30,107,107,.85); }
+.step-label.on-dark { color: var(--teal); }
+
+/* ── Section heading ── */
+.section-h {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 1.1;
+  color: var(--navy);
+  margin-bottom: 8px;
+}
+.section-h.white { color: white; }
+
+/* ── Body text ── */
+.body-text {
+  font-family: 'Inter', sans-serif;
+  font-size: 13.5px;
+  line-height: 1.75;
+  color: rgba(30,30,36,.78);
+}
+.body-text.white { color: rgba(255,255,255,.72); }
+
+/* ── Tool badge ── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border-radius: 2px;
+}
+.badge-navy    { background: var(--navy);    color: white; }
+.badge-teal    { background: var(--teal);    color: white; }
+.badge-copper  { background: var(--copper);  color: white; }
+.badge-stone   { background: var(--stone);   color: var(--charcoal); }
+.badge-outline { border: 1.5px solid var(--navy); color: var(--navy); background: transparent; }
+
+/* ── Color swatch ── */
+.swatch {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+.swatch-dot {
+  width: 36px;
+  height: 36px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+.swatch-info { font-family: 'Space Grotesk', sans-serif; }
+.swatch-name { font-size: 12px; font-weight: 600; color: var(--charcoal); }
+.swatch-hex  { font-size: 10.5px; color: #888; letter-spacing: .06em; }
+
+/* ── Step card ── */
+.step-card {
+  display: flex;
+  gap: 20px;
+  padding: 20px 22px;
+  background: white;
+  border-left: 3px solid var(--copper);
+  margin-bottom: 14px;
+}
+.step-num {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 28px;
+  color: var(--copper);
+  line-height: 1;
+  flex-shrink: 0;
+  width: 32px;
+}
+.step-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--navy);
+  margin-bottom: 4px;
+}
+.step-desc {
+  font-family: 'Inter', sans-serif;
+  font-size: 12.5px;
+  color: rgba(30,30,36,.7);
+  line-height: 1.6;
+}
+
+/* ── Code block ── */
+.code-block {
+  background: var(--charcoal);
+  color: #a8d8a8;
+  font-family: 'Courier New', monospace;
+  font-size: 11.5px;
+  line-height: 1.7;
+  padding: 16px 20px;
+  border-left: 3px solid var(--copper);
+  margin: 14px 0;
+  overflow: hidden;
+}
+.code-block .cmd { color: #f0c070; }
+.code-block .comment { color: #778899; }
+.code-block .str { color: #98d9a0; }
+
+/* ── Outcome box ── */
+.outcome-box {
+  background: rgba(184,114,48,.1);
+  border: 1.5px solid rgba(184,114,48,.3);
+  padding: 14px 18px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 16px;
+}
+.outcome-icon { color: var(--copper); font-size: 16px; flex-shrink: 0; }
+.outcome-text { font-family: 'Space Grotesk', sans-serif; font-size: 12px; font-weight: 600; color: var(--navy); }
+
+/* ── Table ── */
+.data-table { width: 100%; border-collapse: collapse; font-family: 'Inter', sans-serif; font-size: 12px; }
+.data-table th { background: var(--navy); color: white; padding: 9px 14px; text-align: left; font-family: 'Space Grotesk', sans-serif; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; }
+.data-table td { padding: 9px 14px; border-bottom: 1px solid var(--stone); color: var(--charcoal); vertical-align: top; }
+.data-table tr:nth-child(even) td { background: rgba(244,240,236,.6); }
+
+/* ── Pipeline diagram ── */
+.pipeline { display: flex; align-items: center; gap: 0; margin: 24px 0; }
+.pipe-node {
+  flex: 1;
+  text-align: center;
+  padding: 14px 8px;
+  position: relative;
+}
+.pipe-node-inner {
+  background: var(--navy);
+  color: white;
+  padding: 10px 6px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  position: relative;
+  z-index: 1;
+}
+.pipe-node-inner.copper { background: var(--copper); }
+.pipe-node-inner.teal   { background: var(--teal); }
+.pipe-arrow {
+  width: 24px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--copper);
+}
+
+/* ── Architecture diagram boxes ── */
+.arch-box {
+  border: 2px solid;
+  padding: 12px 16px;
+  text-align: center;
+}
+.arch-box.navy-box   { border-color: var(--navy);   background: rgba(26,58,82,.08); }
+.arch-box.teal-box   { border-color: var(--teal);   background: rgba(30,107,107,.08); }
+.arch-box.copper-box { border-color: var(--copper); background: rgba(184,114,48,.08); }
+.arch-label { font-family: 'Space Grotesk', sans-serif; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; }
+.arch-sub   { font-family: 'Inter', sans-serif; font-size: 10.5px; color: #666; margin-top: 3px; }
+
+/* ── Checklist ── */
+.checklist { list-style: none; }
+.checklist li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--stone);
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  color: var(--charcoal);
+}
+.checklist li:last-child { border-bottom: none; }
+.check-icon { color: var(--teal); flex-shrink: 0; margin-top: 2px; }
+
+/* ── Two column ── */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+.three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+
+/* ── Divider ── */
+.divider { height: 1px; background: var(--stone); margin: 24px 0; }
+
+/* ── Page number ── */
+.page-num {
+  position: absolute;
+  bottom: 20px;
+  right: 28px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 10px;
+  color: rgba(30,30,36,.3);
+  letter-spacing: .12em;
+}
+.page-num.white { color: rgba(255,255,255,.3); }
+
+/* ── Print ── */
+@media print {
+  body { background: white; }
+  .page { margin: 0; box-shadow: none; page-break-after: always; }
+  @page { size: A4; margin: 0; }
+}
+
+/* ── Screen only ── */
+@media screen {
+  body { padding: 32px 16px; }
+  .page { box-shadow: 0 8px 48px rgba(0,0,0,.15); }
+}
+</style>
+</head>
+<body>
+
+
+<!-- ══════════════════════════════════════
+     PAGE 1 — COVER
+══════════════════════════════════════ -->
+<div class="page cover">
+
+  <!-- Top bar -->
+  <div style="display:flex; align-items:center; justify-content:space-between;">
+    <div style="display:flex; align-items:center; gap:12px;">
+      <svg width="40" height="40" viewBox="0 0 36 36" fill="none">
+        <rect width="36" height="36" fill="#1A3A52"/>
+        <rect width="5" height="36" fill="#1E6B6B"/>
+        <rect x="27" y="27" width="9" height="9" fill="#B87230"/>
+        <text x="8" y="25" font-family="Space Grotesk,sans-serif" font-weight="700" font-size="16" fill="white">PG</text>
+      </svg>
+      <div>
+        <div style="font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:white;">Pourya Gheitarani</div>
+        <div style="font-family:'Space Grotesk',sans-serif; font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:#1E6B6B;">Engineering &amp; AI Consultant</div>
+      </div>
+    </div>
+    <div style="font-family:'Space Grotesk',sans-serif; font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:rgba(255,255,255,.3);">2025 · Workflow Guide</div>
+  </div>
+
+  <!-- Center content -->
+  <div style="flex:1; display:flex; flex-direction:column; justify-content:center; padding: 60px 0 40px;">
+
+    <!-- Big decorative PG watermark -->
+    <div style="position:absolute; right:-40px; top:80px; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:340px; line-height:1; color:rgba(30,107,107,.06); pointer-events:none; user-select:none;">PG</div>
+
+    <div style="font-family:'Space Grotesk',sans-serif; font-size:10px; letter-spacing:.24em; text-transform:uppercase; color:#1E6B6B; margin-bottom:20px;">Project Documentation</div>
+
+    <div style="font-family:'DM Serif Display',serif; font-style:italic; font-size:52px; color:#B87230; line-height:1.1; margin-bottom:16px;">
+      From Zero<br>to Live.
+    </div>
+    <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:22px; color:white; letter-spacing:.04em; margin-bottom:24px;">
+      WEBSITE CREATION WORKFLOW GUIDE
+    </div>
+    <div style="width:48px; height:3px; background:#B87230; margin-bottom:28px;"></div>
+    <div style="font-family:'Inter',sans-serif; font-size:14px; color:rgba(255,255,255,.55); max-width:380px; line-height:1.75;">
+      A step-by-step guide documenting how pourya-website.vercel.app was designed, built, deployed, and connected to a live database — from a blank folder to a fully working personal website.
+    </div>
+
+    <!-- Pipeline mini preview -->
+    <div style="display:flex; align-items:center; gap:8px; margin-top:40px; flex-wrap:wrap;">
+      <div style="font-family:'Space Grotesk',sans-serif; font-size:10px; font-weight:600; background:#1E6B6B; color:white; padding:6px 12px; letter-spacing:.08em;">BRAND GUIDE</div>
+      <svg width="16" height="10" viewBox="0 0 16 10"><path d="M0 5h13M9 1l5 4-5 4" stroke="#B87230" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+      <div style="font-family:'Space Grotesk',sans-serif; font-size:10px; font-weight:600; background:#1E6B6B; color:white; padding:6px 12px; letter-spacing:.08em;">DESIGN</div>
+      <svg width="16" height="10" viewBox="0 0 16 10"><path d="M0 5h13M9 1l5 4-5 4" stroke="#B87230" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+      <div style="font-family:'Space Grotesk',sans-serif; font-size:10px; font-weight:600; background:#1E6B6B; color:white; padding:6px 12px; letter-spacing:.08em;">BUILD</div>
+      <svg width="16" height="10" viewBox="0 0 16 10"><path d="M0 5h13M9 1l5 4-5 4" stroke="#B87230" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+      <div style="font-family:'Space Grotesk',sans-serif; font-size:10px; font-weight:600; background:#1E6B6B; color:white; padding:6px 12px; letter-spacing:.08em;">GITHUB</div>
+      <svg width="16" height="10" viewBox="0 0 16 10"><path d="M0 5h13M9 1l5 4-5 4" stroke="#B87230" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+      <div style="font-family:'Space Grotesk',sans-serif; font-size:10px; font-weight:600; background:#B87230; color:white; padding:6px 12px; letter-spacing:.08em;">VERCEL</div>
+      <svg width="16" height="10" viewBox="0 0 16 10"><path d="M0 5h13M9 1l5 4-5 4" stroke="#B87230" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+      <div style="font-family:'Space Grotesk',sans-serif; font-size:10px; font-weight:600; background:#B87230; color:white; padding:6px 12px; letter-spacing:.08em;">SUPABASE</div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div style="display:flex; justify-content:space-between; align-items:flex-end; padding-top:20px; border-top:1px solid rgba(255,255,255,.1);">
+    <div style="font-family:'Inter',sans-serif; font-style:italic; font-size:11px; color:rgba(255,255,255,.35);">Grounded in Engineering. Driven by Intelligence.</div>
+    <div style="font-family:'Space Grotesk',sans-serif; font-size:10px; color:rgba(255,255,255,.3); letter-spacing:.1em;">pourya-website.vercel.app</div>
+  </div>
+
+  <div class="page-num white">01</div>
+</div>
+
+
+<!-- ══════════════════════════════════════
+     PAGE 2 — TOOLS OVERVIEW
+══════════════════════════════════════ -->
+<div class="page section-page">
+
+  <div class="step-label">Overview</div>
+  <div class="rule"></div>
+  <div class="section-h">The Toolkit</div>
+  <p class="body-text" style="margin-bottom:28px;">Every tool used in this project had a specific job. Here's the complete stack — from first idea to live database.</p>
+
+  <div class="three-col" style="margin-bottom:28px;">
+
+    <!-- Claude Code -->
+    <div style="background:var(--navy); padding:20px; color:white;">
+      <div style="margin-bottom:12px;">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="6" fill="rgba(184,114,48,.2)"/><path d="M8 16c0-4.4 3.6-8 8-8s8 3.6 8 8-3.6 8-8 8" stroke="#B87230" stroke-width="2" stroke-linecap="round"/><circle cx="16" cy="16" r="3" fill="#B87230"/></svg>
+      </div>
+      <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:14px; margin-bottom:6px;">Claude Code</div>
+      <div style="font-family:'Inter',sans-serif; font-size:11.5px; color:rgba(255,255,255,.6); line-height:1.6;">AI coding assistant that planned, wrote, and deployed everything — no manual coding required.</div>
+      <div style="margin-top:12px;"><span class="badge badge-copper" style="font-size:9px;">AI Assistant</span></div>
+    </div>
+
+    <!-- HTML + Tailwind -->
+    <div style="background:var(--teal); padding:20px; color:white;">
+      <div style="margin-bottom:12px;">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="6" fill="rgba(255,255,255,.15)"/><path d="M7 9l2 14 7 2 7-2 2-14H7z" stroke="white" stroke-width="1.5" stroke-linejoin="round"/><path d="M12 13h8M12.5 17.5l1 3.5 2.5.8 2.5-.8 1-3.5" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+      <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:14px; margin-bottom:6px;">HTML + Tailwind CSS</div>
+      <div style="font-family:'Inter',sans-serif; font-size:11.5px; color:rgba(255,255,255,.75); line-height:1.6;">Single HTML file with Tailwind CDN. No build step, no framework. Open in any browser instantly.</div>
+      <div style="margin-top:12px;"><span class="badge" style="background:rgba(255,255,255,.2); color:white; font-size:9px;">Frontend</span></div>
+    </div>
+
+    <!-- Google Fonts -->
+    <div style="background:white; border:1.5px solid var(--stone); padding:20px;">
+      <div style="margin-bottom:12px;">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="6" fill="#F5F2EC"/><text x="6" y="23" font-family="serif" font-size="18" font-weight="700" fill="#1A3A52">Aa</text></svg>
+      </div>
+      <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:14px; color:var(--navy); margin-bottom:6px;">Google Fonts</div>
+      <div style="font-family:'Inter',sans-serif; font-size:11.5px; color:#666; line-height:1.6;">Three brand fonts loaded via CDN: Space Grotesk, Inter, and DM Serif Display.</div>
+      <div style="margin-top:12px;"><span class="badge badge-stone" style="font-size:9px;">Typography</span></div>
+    </div>
+
+    <!-- Git + GitHub -->
+    <div style="background:white; border:1.5px solid var(--stone); padding:20px;">
+      <div style="margin-bottom:12px;">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="6" fill="#F5F2EC"/><circle cx="16" cy="16" r="9" stroke="#1A3A52" stroke-width="1.5"/><circle cx="16" cy="16" r="3.5" fill="#1A3A52"/><path d="M16 7v5M16 20v5M7 16h5M20 16h5" stroke="#1A3A52" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+      <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:14px; color:var(--navy); margin-bottom:6px;">Git + GitHub</div>
+      <div style="font-family:'Inter',sans-serif; font-size:11.5px; color:#666; line-height:1.6;">Version control and remote code storage. Every change is tracked and reversible.</div>
+      <div style="margin-top:12px;"><span class="badge badge-outline" style="font-size:9px;">Version Control</span></div>
+    </div>
+
+    <!-- Vercel -->
+    <div style="background:var(--charcoal); padding:20px; color:white;">
+      <div style="margin-bottom:12px;">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="6" fill="rgba(255,255,255,.08)"/><path d="M16 8l12 16H4L16 8z" fill="white"/></svg>
+      </div>
+      <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:14px; margin-bottom:6px;">Vercel</div>
+      <div style="font-family:'Inter',sans-serif; font-size:11.5px; color:rgba(255,255,255,.6); line-height:1.6;">One-command deployment. Auto-redeploys on every GitHub push. Free tier is more than enough.</div>
+      <div style="margin-top:12px;"><span class="badge badge-copper" style="font-size:9px;">Deployment</span></div>
+    </div>
+
+    <!-- Supabase -->
+    <div style="background:var(--navy); padding:20px; color:white;">
+      <div style="margin-bottom:12px;">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="6" fill="rgba(30,107,107,.3)"/><path d="M10 22V12l6-4 6 4v10l-6 4-6-4z" stroke="#1E6B6B" stroke-width="1.5" stroke-linejoin="round"/><path d="M16 8v16M10 12l12 8M22 12L10 20" stroke="rgba(30,107,107,.5)" stroke-width="1"/></svg>
+      </div>
+      <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:14px; margin-bottom:6px;">Supabase</div>
+      <div style="font-family:'Inter',sans-serif; font-size:11.5px; color:rgba(255,255,255,.6); line-height:1.6;">Open-source Firebase alternative. Provides PostgreSQL database, REST API, and auth — free tier.</div>
+      <div style="margin-top:12px;"><span class="badge" style="background:var(--teal); color:white; font-size:9px;">Database</span></div>
+    </div>
+
+  </div>
+
+  <!-- Time estimate -->
+  <div style="background:var(--navy); padding:20px 24px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px;">
+    <div>
+      <div style="font-family:'Space Grotesk',sans-serif; font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:var(--teal); margin-bottom:4px;">Total time from start to live</div>
+      <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:22px; color:white;">Under 2 hours</div>
+    </div>
+    <div style="display:flex; gap:24px; flex-wrap:wrap;">
+      <div style="text-align:center;">
+        <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:20px; color:var(--copper);">1</div>
+        <div style="font-family:'Inter',sans-serif; font-size:10px; color:rgba(255,255,255,.4);">HTML file</div>
+      </div>
+      <div style="text-align:center;">
+        <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:20px; color:var(--copper);">3</div>
+        <div style="font-family:'Inter',sans-serif; font-size:10px; color:rgba(255,255,255,.4);">DB tables</div>
+      </div>
+      <div style="text-align:center;">
+        <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:20px; color:var(--copper);">0</div>
+        <div style="font-family:'Inter',sans-serif; font-size:10px; color:rgba(255,255,255,.4);">manual deploys</div>
+      </div>
+      <div style="text-align:center;">
+        <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:20px; color:var(--copper);">$0</div>
+        <div style="font-family:'Inter',sans-serif; font-size:10px; color:rgba(255,255,255,.4);">monthly cost</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-num">02</div>
+</div>
+
+
+<!-- ══════════════════════════════════════
+     PAGE 3 — STEP 1: BRAND GUIDE
+══════════════════════════════════════ -->
+<div class="page section-page">
+
+  <div class="step-label">Step 01 of 07</div>
+  <div class="rule"></div>
+
+  <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:32px; margin-bottom:28px;">
+    <div style="flex:1;">
+      <div class="section-h" style="margin-bottom:12px;">Read the Brand Guide</div>
+      <p class="body-text">Before writing a single line of code, everything started with understanding the brand. Two PDF files were provided: a full brand guide and a personal brand statement. Claude Code read both and extracted every design decision.</p>
+    </div>
+    <div style="background:var(--navy); padding:20px 28px; flex-shrink:0; text-align:center; min-width:140px;">
+      <svg width="48" height="48" viewBox="0 0 48 48" fill="none" style="margin:0 auto 8px;"><rect width="48" height="48" rx="4" fill="rgba(184,114,48,.15)"/><path d="M14 10h20v28H14z" stroke="#B87230" stroke-width="1.5" stroke-linejoin="round"/><path d="M18 18h12M18 22h12M18 26h8" stroke="rgba(184,114,48,.6)" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <div style="font-family:'Space Grotesk',sans-serif; font-size:10px; font-weight:600; color:white; letter-spacing:.1em; text-transform:uppercase;">2 PDF Files</div>
+      <div style="font-family:'Inter',sans-serif; font-size:10px; color:rgba(255,255,255,.4); margin-top:4px;">Brand Guide v2<br>Personal Brand</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- What was extracted -->
+  <div style="font-family:'Space Grotesk',sans-serif; font-size:10.5px; font-weight:600; letter-spacing:.15em; text-transform:uppercase; color:var(--navy); margin-bottom:16px;">What was extracted from the PDFs</div>
+
+  <div class="two-col">
+    <!-- Colors -->
+    <div>
+      <div style="font-family:'Space Grotesk',sans-serif; font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:.12em; color:var(--teal); margin-bottom:14px;">Color Palette</div>
+      <div class="swatch"><div class="swatch-dot" style="background:#1A3A52;"></div><div class="swatch-info"><div class="swatch-name">Deep Engineering Blue</div><div class="swatch-hex">#1A3A52 · Primary</div></div></div>
+      <div class="swatch"><div class="swatch-dot" style="background:#1E6B6B;"></div><div class="swatch-info"><div class="swatch-name">Teal Intelligence</div><div class="swatch-hex">#1E6B6B · Secondary</div></div></div>
+      <div class="swatch"><div class="swatch-dot" style="background:#B87230;"></div><div class="swatch-info"><div class="swatch-name">Industrial Copper</div><div class="swatch-hex">#B87230 · Accent / CTA</div></div></div>
+      <div class="swatch"><div class="swatch-dot" style="background:#F5F2EC; border:1px solid #E4E0D8;"></div><div class="swatch-info"><div class="swatch-name">Warm Off-White</div><div class="swatch-hex">#F5F2EC · Background</div></div></div>
+      <div class="swatch"><div class="swatch-dot" style="background:#1E1E24;"></div><div class="swatch-info"><div class="swatch-name">Deep Charcoal</div><div class="swatch-hex">#1E1E24 · Body text</div></div></div>
+      <div class="swatch"><div class="swatch-dot" style="background:#E4E0D8;"></div><div class="swatch-info"><div class="swatch-name">Neutral Stone</div><div class="swatch-hex">#E4E0D8 · Dividers</div></div></div>
+    </div>
+
+    <!-- Typography + other -->
+    <div>
+      <div style="font-family:'Space Grotesk',sans-serif; font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:.12em; color:var(--teal); margin-bottom:14px;">Typography</div>
+      <div style="background:white; border:1px solid var(--stone); padding:14px; margin-bottom:10px;">
+        <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:16px; color:var(--navy);">Space Grotesk</div>
+        <div style="font-family:'Inter',sans-serif; font-size:10.5px; color:#888; margin-top:2px;">Headings · UI · Labels · Navigation</div>
+      </div>
+      <div style="background:white; border:1px solid var(--stone); padding:14px; margin-bottom:10px;">
+        <div style="font-family:'Inter',sans-serif; font-size:15px; color:var(--charcoal);">Inter</div>
+        <div style="font-family:'Inter',sans-serif; font-size:10.5px; color:#888; margin-top:2px;">Body copy · Descriptions · Captions</div>
+      </div>
+      <div style="background:white; border:1px solid var(--stone); padding:14px; margin-bottom:20px;">
+        <div style="font-family:'DM Serif Display',serif; font-style:italic; font-size:17px; color:var(--copper);">DM Serif Display</div>
+        <div style="font-family:'Inter',sans-serif; font-size:10.5px; color:#888; margin-top:2px;">Hero tagline only · Used sparingly</div>
+      </div>
+
+      <div style="font-family:'Space Grotesk',sans-serif; font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:.12em; color:var(--teal); margin-bottom:10px;">Brand Tagline</div>
+      <div style="background:var(--navy); padding:14px 16px;">
+        <div style="font-family:'DM Serif Display',serif; font-style:italic; font-size:16px; color:var(--copper); line-height:1.4;">"Grounded in Engineering.<br>Driven by Intelligence."</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="outcome-box" style="margin-top:20px;">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#B87230" stroke-width="2" stroke-linecap="round" class="outcome-icon" style="margin-top:1px;"><polyline points="20 6 9 17 4 12"/></svg>
+    <div class="outcome-text">Outcome: Complete design system documented before a single line of code was written.</div>
+  </div>
+
+  <div class="page-num">03</div>
+</div>
+
+
+<!-- ══════════════════════════════════════
+     PAGE 4 — STEP 2: BUILDING THE SITE
+══════════════════════════════════════ -->
+<div class="page section-page dark">
+
+  <div class="step-label on-dark">Step 02 of 07</div>
+  <div class="rule"></div>
+  <div class="section-h white" style="margin-bottom:12px;">Building the Website</div>
+  <p class="body-text white" style="margin-bottom:28px;">The entire website is a single <code style="background:rgba(255,255,255,.1); padding:2px 6px; font-size:12px; color:#B87230;">index.html</code> file. No framework, no build process, no npm install. This was a deliberate choice — maximum simplicity, instant deployment anywhere.</p>
+
+  <!-- Why single file -->
+  <div style="background:rgba(255,255,255,.06); border-left:3px solid var(--copper); padding:16px 20px; margin-bottom:28px;">
+    <div style="font-family:'Space Grotesk',sans-serif; font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:.14em; color:var(--teal); margin-bottom:8px;">Why a single HTML file?</div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+      <div style="display:flex; gap:8px; align-items:flex-start;">
+        <span style="color:var(--copper); font-size:14px; flex-shrink:0;">→</span>
+        <span style="font-family:'Inter',sans-serif; font-size:12px; color:rgba(255,255,255,.65);">No build step — open directly in browser</span>
+      </div>
+      <div style="display:flex; gap:8px; align-items:flex-start;">
+        <span style="color:var(--copper); font-size:14px; flex-shrink:0;">→</span>
+        <span style="font-family:'Inter',sans-serif; font-size:12px; color:rgba(255,255,255,.65);">Deploys instantly to any static host</span>
+      </div>
+      <div style="display:flex; gap:8px; align-items:flex-start;">
+        <span style="color:var(--copper); font-size:14px; flex-shrink:0;">→</span>
+        <span style="font-family:'Inter',sans-serif; font-size:12px; color:rgba(255,255,255,.65);">Easy to share, backup, and version control</span>
+      </div>
+      <div style="display:flex; gap:8px; align-items:flex-start;">
+        <span style="color:var(--copper); font-size:14px; flex-shrink:0;">→</span>
+        <span style="font-family:'Inter',sans-serif; font-size:12px; color:rgba(255,255,255,.65);">Tailwind CDN handles all styling utilities</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sections built -->
+  <div style="font-family:'Space Grotesk',sans-serif; font-size:10.5px; font-weight:600; letter-spacing:.15em; text-transform:uppercase; color:rgba(255,255,255,.4); margin-bottom:16px;">Sections built</div>
+
+  <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:10px; margin-bottom:28px;">
+    <div style="background:rgba(255,255,255,.06); padding:12px; text-align:center; border-top:2px solid var(--teal);">
+      <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:11px; color:var(--copper); letter-spacing:.1em;">HERO</div>
+      <div style="font-family:'Inter',sans-serif; font-size:10px; color:rgba(255,255,255,.45); margin-top:4px;">Name, tagline, stats</div>
+    </div>
+    <div style="background:rgba(255,255,255,.06); padding:12px; text-align:center; border-top:2px solid var(--teal);">
+      <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:11px; color:var(--copper); letter-spacing:.1em;">ABOUT</div>
+      <div style="font-family:'Inter',sans-serif; font-size:10px; color:rgba(255,255,255,.45); margin-top:4px;">Bio, brand statement</div>
+    </div>
+    <div style="background:rgba(255,255,255,.06); padding:12px; text-align:center; border-top:2px solid var(--teal);">
+      <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:11px; color:var(--copper); letter-spacing:.1em;">EXPERTISE</div>
+      <div style="font-family:'Inter',sans-serif; font-size:10px; color:rgba(255,255,255,.45); margin-top:4px;">4 capabilities</div>
+    </div>
+    <div style="background:rgba(255,255,255,.06); padding:12px; text-align:center; border-top:2px solid var(--teal);">
+      <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:11px; color:var(--copper); letter-spacing:.1em;">VALUES</div>
+      <div style="font-family:'Inter',sans-serif; font-size:10px; color:rgba(255,255,255,.45); margin-top:4px;">5 core principles</div>
+    </div>
+    <div style="background:rgba(255,255,255,.06); padding:12px; text-align:center; border-top:2px solid var(--copper);">
+      <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:11px; color:var(--copper); letter-spacing:.1em;">QUOTE</div>
+      <div style="font-family:'Inter',sans-serif; font-size:10px; color:rgba(255,255,255,.45); margin-top:4px;">Defining moment</div>
+    </div>
+    <div style="background:rgba(255,255,255,.06); padding:12px; text-align:center; border-top:2px solid var(--copper);">
+      <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:11px; color:var(--copper); letter-spacing:.1em;">MESSAGES</div>
+      <div style="font-family:'Inter',sans-serif; font-size:10px; color:rgba(255,255,255,.45); margin-top:4px;">5 key beliefs</div>
+    </div>
+    <div style="background:rgba(255,255,255,.06); padding:12px; text-align:center; border-top:2px solid var(--copper);">
+      <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:11px; color:var(--copper); letter-spacing:.1em;">NEWSLETTER</div>
+      <div style="font-family:'Inter',sans-serif; font-size:10px; color:rgba(255,255,255,.45); margin-top:4px;">Email waitlist</div>
+    </div>
+    <div style="background:rgba(255,255,255,.06); padding:12px; text-align:center; border-top:2px solid var(--copper);">
+      <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:11px; color:var(--copper); letter-spacing:.1em;">CONTACT</div>
+      <div style="font-family:'Inter',sans-serif; font-size:10px; color:rgba(255,255,255,.45); margin-top:4px;">Form + LinkedIn</div>
+    </div>
+  </div>
+
+  <!-- Design rules applied -->
+  <div style="font-family:'Space Grotesk',sans-serif; font-size:10.5px; font-weight:600; letter-spacing:.15em; text-transform:uppercase; color:rgba(255,255,255,.4); margin-bottom:12px;">Key design rules applied</div>
+  <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px;">
+    <div style="font-family:'Inter',sans-serif; font-size:11px; color:rgba(255,255,255,.55); padding:8px 0; border-bottom:1px solid rgba(255,255,255,.08);">DM Serif Display italic used <em style="color:var(--copper);">only</em> for hero tagline</div>
+    <div style="font-family:'Inter',sans-serif; font-size:11px; color:rgba(255,255,255,.55); padding:8px 0; border-bottom:1px solid rgba(255,255,255,.08);">All interactive elements have <em style="color:var(--copper);">cursor-pointer</em></div>
+    <div style="font-family:'Inter',sans-serif; font-size:11px; color:rgba(255,255,255,.55); padding:8px 0; border-bottom:1px solid rgba(255,255,255,.08);">Transitions capped at 300ms for micro-interactions</div>
+    <div style="font-family:'Inter',sans-serif; font-size:11px; color:rgba(255,255,255,.55); padding:8px 0;">SVG icons only — no emoji used anywhere</div>
+    <div style="font-family:'Inter',sans-serif; font-size:11px; color:rgba(255,255,255,.55); padding:8px 0;">4.5:1 contrast ratio on all text</div>
+    <div style="font-family:'Inter',sans-serif; font-size:11px; color:rgba(255,255,255,.55); padding:8px 0;">Floating navbar with backdrop blur</div>
+  </div>
+
+  <div class="outcome-box" style="background:rgba(184,114,48,.12); border-color:rgba(184,114,48,.3); margin-top:20px;">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#B87230" stroke-width="2" stroke-linecap="round" class="outcome-icon" style="margin-top:1px;"><polyline points="20 6 9 17 4 12"/></svg>
+    <div class="outcome-text" style="color:white;">Outcome: A single index.html file, 660+ lines, fully responsive at 375px → 1440px.</div>
+  </div>
+
+  <div class="page-num white">04</div>
+</div>
+
+
+<!-- ══════════════════════════════════════
+     PAGE 5 — STEP 3 & 4: GIT + GITHUB
+══════════════════════════════════════ -->
+<div class="page section-page">
+
+  <div class="step-label">Step 03 of 07</div>
+  <div class="rule"></div>
+  <div class="section-h" style="margin-bottom:12px;">Version Control with Git &amp; GitHub</div>
+  <p class="body-text" style="margin-bottom:24px;">Version control ensures every change is tracked and reversible. Even for a one-file project, this is essential — it's also the bridge to automatic deployment.</p>
+
+  <!-- Commands -->
+  <div style="font-family:'Space Grotesk',sans-serif; font-size:10.5px; font-weight:600; letter-spacing:.15em; text-transform:uppercase; color:var(--navy); margin-bottom:12px;">Commands run (in order)</div>
+
+  <div class="code-block">
+<span class="comment"># 1. Initialize a new git repository in the project folder</span>
+<span class="cmd">git init</span>
+<span class="cmd">git checkout -b main</span>
+
+<span class="comment"># 2. Create .gitignore to keep sensitive files out of GitHub</span>
+<span class="comment">#    (PDFs, Word documents with confidential brand guide)</span>
+<span class="comment">*.pdf, *.docx → NOT pushed to GitHub</span>
+
+<span class="comment"># 3. Stage and commit the website</span>
+<span class="cmd">git add index.html .gitignore</span>
+<span class="cmd">git commit -m <span class="str">"Initial commit: personal website for Pourya Gheitarani"</span></span>
+
+<span class="comment"># 4. Create GitHub repo + push in one command (GitHub CLI)</span>
+<span class="cmd">gh repo create pourya-website --public --source . --remote origin --push</span>
+  </div>
+
+  <!-- .gitignore explanation -->
+  <div style="background:#f8f7f5; border:1.5px solid var(--stone); padding:16px 20px; margin-bottom:24px;">
+    <div style="font-family:'Space Grotesk',sans-serif; font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:.14em; color:var(--navy); margin-bottom:8px;">Why .gitignore matters here</div>
+    <div style="display:flex; gap:24px;">
+      <div style="flex:1;">
+        <div style="font-family:'Inter',sans-serif; font-size:11.5px; color:#e44; margin-bottom:4px; font-weight:600;">✗ NOT pushed (private)</div>
+        <div style="font-family:'Courier New',monospace; font-size:11px; color:#888;">Pourya_Brand_Guide_v2.pdf<br>pourya_personal_brand.pdf<br>CV - Pourya Gheitarani.docx</div>
+      </div>
+      <div style="flex:1;">
+        <div style="font-family:'Inter',sans-serif; font-size:11.5px; color:var(--teal); margin-bottom:4px; font-weight:600;">✓ Pushed (public)</div>
+        <div style="font-family:'Courier New',monospace; font-size:11px; color:#888;">index.html<br>.gitignore<br>README.md</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- README -->
+  <div style="font-family:'Space Grotesk',sans-serif; font-size:10.5px; font-weight:600; letter-spacing:.15em; text-transform:uppercase; color:var(--navy); margin-bottom:12px;">README.md — The project documentation file</div>
+  <p class="body-text" style="margin-bottom:12px;">A README.md was created so anyone landing on the GitHub repo instantly understands the project. It includes the stack, brand color table, sections overview, and deployment instructions.</p>
+
+  <div style="background:white; border:1.5px solid var(--stone); padding:16px 20px;">
+    <table class="data-table">
+      <thead><tr><th>File</th><th>Purpose</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td><code>index.html</code></td><td>The entire website</td><td><span style="color:var(--teal); font-weight:600;">✓ Public</span></td></tr>
+        <tr><td><code>.gitignore</code></td><td>Excludes sensitive documents</td><td><span style="color:var(--teal); font-weight:600;">✓ Public</span></td></tr>
+        <tr><td><code>README.md</code></td><td>Project overview shown on GitHub</td><td><span style="color:var(--teal); font-weight:600;">✓ Public</span></td></tr>
+        <tr><td><code>*.pdf, *.docx</code></td><td>Brand guide &amp; CV (confidential)</td><td><span style="color:#e44; font-weight:600;">✗ Ignored</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="outcome-box">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#B87230" stroke-width="2" stroke-linecap="round" class="outcome-icon" style="margin-top:1px;"><polyline points="20 6 9 17 4 12"/></svg>
+    <div class="outcome-text">Outcome: github.com/Pourya-AIC/pourya-website — public repo, 2 commits, confidential files excluded.</div>
+  </div>
+
+  <div class="page-num">05</div>
+</div>
+
+
+<!-- ══════════════════════════════════════
+     PAGE 6 — STEP 4: VERCEL DEPLOYMENT
+══════════════════════════════════════ -->
+<div class="page section-page" style="background:var(--charcoal); color:white;">
+
+  <div class="step-label" style="color:var(--teal);">Step 04 of 07</div>
+  <div class="rule"></div>
+  <div class="section-h white" style="margin-bottom:12px;">Deploying to Vercel</div>
+  <p class="body-text white" style="margin-bottom:28px;">Vercel turns the GitHub repo into a live website accessible to anyone on the internet — in under 60 seconds. It also sets up automatic redeployment on every future push.</p>
+
+  <!-- How it works diagram -->
+  <div style="font-family:'Space Grotesk',sans-serif; font-size:10.5px; font-weight:600; letter-spacing:.15em; text-transform:uppercase; color:rgba(255,255,255,.4); margin-bottom:16px;">How the deployment pipeline works</div>
+
+  <div style="display:flex; align-items:center; gap:0; margin-bottom:28px; overflow:hidden;">
+    <div style="flex:1; background:rgba(30,107,107,.3); border:1px solid rgba(30,107,107,.5); padding:16px 12px; text-align:center;">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1E6B6B" stroke-width="1.5" style="margin:0 auto 6px;"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+      <div style="font-family:'Space Grotesk',sans-serif; font-size:10px; font-weight:700; color:white; letter-spacing:.08em; text-transform:uppercase;">GitHub</div>
+      <div style="font-family:'Inter',sans-serif; font-size:9.5px; color:rgba(255,255,255,.45); margin-top:3px;">Code pushed</div>
+    </div>
+    <div style="padding:0 6px; color:var(--copper); font-size:18px; flex-shrink:0;">→</div>
+    <div style="flex:1; background:rgba(184,114,48,.15); border:1px solid rgba(184,114,48,.4); padding:16px 12px; text-align:center;">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" style="margin:0 auto 6px;"><path d="M12 3l10 18H2L12 3z" fill="rgba(184,114,48,.5)" stroke="#B87230" stroke-width="1.5" stroke-linejoin="round"/></svg>
+      <div style="font-family:'Space Grotesk',sans-serif; font-size:10px; font-weight:700; color:white; letter-spacing:.08em; text-transform:uppercase;">Vercel</div>
+      <div style="font-family:'Inter',sans-serif; font-size:9.5px; color:rgba(255,255,255,.45); margin-top:3px;">Detects push</div>
+    </div>
+    <div style="padding:0 6px; color:var(--copper); font-size:18px; flex-shrink:0;">→</div>
+    <div style="flex:1; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.15); padding:16px 12px; text-align:center;">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.6)" stroke-width="1.5" style="margin:0 auto 6px;"><path d="M14.5 10c-.83 0-1.5-.67-1.5-1.5v-5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5z"/><path d="M20.5 10H19V8.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/><path d="M9.5 14c.83 0 1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5S8 21.33 8 20.5v-5c0-.83.67-1.5 1.5-1.5z"/><path d="M3.5 14H5v1.5c0 .83-.67 1.5-1.5 1.5S2 16.33 2 15.5 2.67 14 3.5 14z"/><path d="M14 14.5c0-.83.67-1.5 1.5-1.5h5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5h-5c-.83 0-1.5-.67-1.5-1.5z"/><path d="M15.5 19H14v1.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5-.67-1.5-1.5-1.5z"/><path d="M10 9.5C10 8.67 9.33 8 8.5 8h-5C2.67 8 2 8.67 2 9.5S2.67 11 3.5 11h5c.83 0 1.5-.67 1.5-1.5z"/><path d="M8.5 5H10V3.5C10 2.67 9.33 2 8.5 2S7 2.67 7 3.5 7.67 5 8.5 5z"/></svg>
+      <div style="font-family:'Space Grotesk',sans-serif; font-size:10px; font-weight:700; color:white; letter-spacing:.08em; text-transform:uppercase;">Build</div>
+      <div style="font-family:'Inter',sans-serif; font-size:9.5px; color:rgba(255,255,255,.45); margin-top:3px;">~30 seconds</div>
+    </div>
+    <div style="padding:0 6px; color:var(--copper); font-size:18px; flex-shrink:0;">→</div>
+    <div style="flex:1.2; background:rgba(30,107,107,.3); border:1px solid rgba(30,107,107,.5); padding:16px 12px; text-align:center;">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1E6B6B" stroke-width="1.5" style="margin:0 auto 6px;"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      <div style="font-family:'Space Grotesk',sans-serif; font-size:10px; font-weight:700; color:white; letter-spacing:.08em; text-transform:uppercase;">Live</div>
+      <div style="font-family:'Inter',sans-serif; font-size:9.5px; color:rgba(255,255,255,.45); margin-top:3px;">pourya-website.vercel.app</div>
+    </div>
+  </div>
+
+  <!-- Commands -->
+  <div style="font-family:'Space Grotesk',sans-serif; font-size:10.5px; font-weight:600; letter-spacing:.15em; text-transform:uppercase; color:rgba(255,255,255,.4); margin-bottom:12px;">Commands run</div>
+  <div class="code-block">
+<span class="comment"># Install Vercel CLI (no global install needed)</span>
+<span class="cmd">npx vercel whoami</span>          <span class="comment">  → Opened browser login, authenticated as pourya-aic</span>
+
+<span class="comment"># Deploy to production with explicit project name</span>
+<span class="cmd">npx vercel --prod --yes --name pourya-website</span>
+
+<span class="comment"># Vercel auto-connected GitHub repo — future deploys are automatic</span>
+<span class="comment"># Every `git push` now triggers a full redeploy</span>
+  </div>
+
+  <!-- URLs -->
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:20px;">
+    <div style="background:rgba(255,255,255,.06); padding:14px 16px;">
+      <div style="font-family:'Space Grotesk',sans-serif; font-size:9.5px; text-transform:uppercase; letter-spacing:.16em; color:var(--teal); margin-bottom:4px;">Production URL</div>
+      <div style="font-family:'Courier New',monospace; font-size:12px; color:var(--copper);">pourya-website.vercel.app</div>
+    </div>
+    <div style="background:rgba(255,255,255,.06); padding:14px 16px;">
+      <div style="font-family:'Space Grotesk',sans-serif; font-size:9.5px; text-transform:uppercase; letter-spacing:.16em; color:var(--teal); margin-bottom:4px;">Dashboard</div>
+      <div style="font-family:'Courier New',monospace; font-size:12px; color:rgba(255,255,255,.5);">vercel.com/pourya-project1/pourya-website</div>
+    </div>
+  </div>
+
+  <div style="background:rgba(184,114,48,.12); border:1.5px solid rgba(184,114,48,.3); padding:14px 18px; display:flex; align-items:flex-start; gap:10px;">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#B87230" stroke-width="2" stroke-linecap="round" style="margin-top:1px; flex-shrink:0;"><polyline points="20 6 9 17 4 12"/></svg>
+    <div style="font-family:'Space Grotesk',sans-serif; font-size:12px; font-weight:600; color:white;">Outcome: Site live in under 60 seconds. Auto-deploy on every push — zero manual work for future updates.</div>
+  </div>
+
+  <div class="page-num white">06</div>
+</div>
+
+
+<!-- ══════════════════════════════════════
+     PAGE 7 — STEP 5: SUPABASE
+══════════════════════════════════════ -->
+<div class="page section-page">
+
+  <div class="step-label">Step 05 of 07</div>
+  <div class="rule"></div>
+  <div class="section-h" style="margin-bottom:12px;">Connecting Supabase</div>
+  <p class="body-text" style="margin-bottom:24px;">The static site needed a backend for three features: a contact form, a newsletter waitlist, and page visit analytics. Supabase provides a hosted PostgreSQL database with a simple JavaScript API — no server required.</p>
+
+  <!-- Three features -->
+  <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-bottom:24px;">
+    <div style="background:var(--navy); padding:16px; border-top:3px solid var(--teal);">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1E6B6B" stroke-width="1.5" stroke-linecap="round" style="margin-bottom:8px;"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:12px; color:white; margin-bottom:4px;">Contact Form</div>
+      <div style="font-family:'Inter',sans-serif; font-size:11px; color:rgba(255,255,255,.55); line-height:1.5;">Name, email, message → <code style="color:var(--copper);">contact_messages</code> table</div>
+    </div>
+    <div style="background:var(--navy); padding:16px; border-top:3px solid var(--copper);">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#B87230" stroke-width="1.5" stroke-linecap="round" style="margin-bottom:8px;"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:12px; color:white; margin-bottom:4px;">Newsletter Waitlist</div>
+      <div style="font-family:'Inter',sans-serif; font-size:11px; color:rgba(255,255,255,.55); line-height:1.5;">Email signups → <code style="color:var(--copper);">waitlist</code> table (unique emails)</div>
+    </div>
+    <div style="background:var(--navy); padding:16px; border-top:3px solid var(--teal);">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1E6B6B" stroke-width="1.5" stroke-linecap="round" style="margin-bottom:8px;"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:12px; color:white; margin-bottom:4px;">Analytics</div>
+      <div style="font-family:'Inter',sans-serif; font-size:11px; color:rgba(255,255,255,.55); line-height:1.5;">Page, referrer, user agent → <code style="color:var(--copper);">page_visits</code> table</div>
+    </div>
+  </div>
+
+  <!-- DB schema -->
+  <div style="font-family:'Space Grotesk',sans-serif; font-size:10.5px; font-weight:600; letter-spacing:.15em; text-transform:uppercase; color:var(--navy); margin-bottom:12px;">Database tables created</div>
+  <table class="data-table" style="margin-bottom:20px;">
+    <thead><tr><th>Table</th><th>Columns</th><th>Security</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><code>contact_messages</code></td>
+        <td>id, name, email*, message*, created_at</td>
+        <td><span style="color:var(--teal); font-weight:600;">RLS · anon INSERT</span></td>
+      </tr>
+      <tr>
+        <td><code>waitlist</code></td>
+        <td>id, email* (unique), created_at</td>
+        <td><span style="color:var(--teal); font-weight:600;">RLS · anon INSERT</span></td>
+      </tr>
+      <tr>
+        <td><code>page_visits</code></td>
+        <td>id, page, referrer, user_agent, created_at</td>
+        <td><span style="color:var(--teal); font-weight:600;">RLS · anon INSERT</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Security note -->
+  <div style="background:#fff8f0; border:1.5px solid rgba(184,114,48,.3); padding:14px 18px; margin-bottom:16px;">
+    <div style="font-family:'Space Grotesk',sans-serif; font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:.12em; color:var(--copper); margin-bottom:6px;">Security: Row Level Security (RLS)</div>
+    <div style="font-family:'Inter',sans-serif; font-size:12px; color:var(--charcoal); line-height:1.65;">RLS was enabled on all three tables so the <strong>publishable key</strong> (safe to expose in HTML) can only <em>insert</em> data — it can never read, update, or delete rows. Your data is protected.</div>
+  </div>
+
+  <!-- How SQL was run -->
+  <div style="background:var(--charcoal); padding:14px 18px;">
+    <div style="font-family:'Space Grotesk',sans-serif; font-size:10px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--teal); margin-bottom:8px;">How the SQL was executed</div>
+    <div style="font-family:'Inter',sans-serif; font-size:12px; color:rgba(255,255,255,.65); line-height:1.65;">The Supabase Management API was called directly from Node.js using a Personal Access Token. This avoids needing to open the Supabase dashboard manually — Claude Code ran the SQL on your behalf and confirmed all three tables were created.</div>
+    <div style="margin-top:10px; font-family:'Courier New',monospace; font-size:10.5px; color:#a8d8a8;">POST https://api.supabase.com/v1/projects/{ref}/database/query</div>
+  </div>
+
+  <div class="outcome-box" style="margin-top:16px;">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#B87230" stroke-width="2" stroke-linecap="round" style="margin-top:1px; flex-shrink:0;"><polyline points="20 6 9 17 4 12"/></svg>
+    <div class="outcome-text">Outcome: 3 live tables in Supabase. Forms, waitlist, and analytics all write to the database in real time.</div>
+  </div>
+
+  <div class="page-num">07</div>
+</div>
+
+
+<!-- ══════════════════════════════════════
+     PAGE 8 — FULL ARCHITECTURE
+══════════════════════════════════════ -->
+<div class="page section-page stone-bg">
+
+  <div class="step-label">System Overview</div>
+  <div class="rule"></div>
+  <div class="section-h" style="margin-bottom:12px;">Complete Architecture</div>
+  <p class="body-text" style="margin-bottom:28px;">How all the pieces connect — from your local machine to the live website and database.</p>
+
+  <!-- Architecture diagram -->
+  <div style="background:var(--navy); padding:28px 32px; margin-bottom:24px;">
+
+    <!-- Row 1: Local + GitHub -->
+    <div style="display:flex; align-items:center; gap:12px; margin-bottom:20px;">
+      <div style="flex:1; background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.15); padding:16px; text-align:center;">
+        <div style="font-family:'Space Grotesk',sans-serif; font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:rgba(255,255,255,.4); margin-bottom:6px;">Your Machine</div>
+        <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:13px; color:white;">index.html</div>
+        <div style="font-family:'Inter',sans-serif; font-size:10px; color:rgba(255,255,255,.4); margin-top:3px;">Local development</div>
+      </div>
+
+      <div style="display:flex; flex-direction:column; align-items:center; gap:3px; flex-shrink:0;">
+        <svg width="36" height="14" viewBox="0 0 36 14" fill="none"><path d="M0 7h32M25 2l8 5-8 5" stroke="#B87230" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+        <div style="font-family:'Space Grotesk',sans-serif; font-size:9px; color:rgba(255,255,255,.3); letter-spacing:.08em;">git push</div>
+      </div>
+
+      <div style="flex:1; background:rgba(30,107,107,.2); border:1.5px solid rgba(30,107,107,.5); padding:16px; text-align:center;">
+        <div style="font-family:'Space Grotesk',sans-serif; font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--teal); margin-bottom:6px;">GitHub</div>
+        <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:13px; color:white;">pourya-website</div>
+        <div style="font-family:'Inter',sans-serif; font-size:10px; color:rgba(255,255,255,.4); margin-top:3px;">Source of truth</div>
+      </div>
+
+      <div style="display:flex; flex-direction:column; align-items:center; gap:3px; flex-shrink:0;">
+        <svg width="36" height="14" viewBox="0 0 36 14" fill="none"><path d="M0 7h32M25 2l8 5-8 5" stroke="#B87230" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+        <div style="font-family:'Space Grotesk',sans-serif; font-size:9px; color:rgba(255,255,255,.3); letter-spacing:.08em;">webhook</div>
+      </div>
+
+      <div style="flex:1; background:rgba(184,114,48,.15); border:1.5px solid rgba(184,114,48,.4); padding:16px; text-align:center;">
+        <div style="font-family:'Space Grotesk',sans-serif; font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--copper); margin-bottom:6px;">Vercel</div>
+        <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:13px; color:white;">Auto Build</div>
+        <div style="font-family:'Inter',sans-serif; font-size:10px; color:rgba(255,255,255,.4); margin-top:3px;">~30 sec deploy</div>
+      </div>
+    </div>
+
+    <!-- Arrow down -->
+    <div style="text-align:center; margin-bottom:16px;">
+      <svg width="14" height="36" viewBox="0 0 14 36"><path d="M7 0v32M2 25l5 8 5-8" stroke="#B87230" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+      <div style="font-family:'Space Grotesk',sans-serif; font-size:9px; color:rgba(255,255,255,.3); letter-spacing:.08em;">serves</div>
+    </div>
+
+    <!-- Row 2: Visitor + Live Site -->
+    <div style="display:flex; align-items:center; gap:12px; margin-bottom:20px;">
+      <div style="flex:1; background:rgba(255,255,255,.05); border:1px dashed rgba(255,255,255,.15); padding:16px; text-align:center;">
+        <div style="font-family:'Space Grotesk',sans-serif; font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:rgba(255,255,255,.3); margin-bottom:6px;">Visitor</div>
+        <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:13px; color:rgba(255,255,255,.6);">Browser</div>
+        <div style="font-family:'Inter',sans-serif; font-size:10px; color:rgba(255,255,255,.3); margin-top:3px;">Anyone worldwide</div>
+      </div>
+
+      <div style="display:flex; flex-direction:column; align-items:center; gap:3px; flex-shrink:0;">
+        <svg width="36" height="14" viewBox="0 0 36 14" fill="none"><path d="M36 7H4M11 2l-8 5 8 5" stroke="#1E6B6B" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+        <div style="font-family:'Space Grotesk',sans-serif; font-size:9px; color:rgba(255,255,255,.3); letter-spacing:.08em;">HTTPS</div>
+      </div>
+
+      <div style="flex:2; background:rgba(30,107,107,.2); border:2px solid rgba(30,107,107,.6); padding:16px; text-align:center;">
+        <div style="font-family:'Space Grotesk',sans-serif; font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--teal); margin-bottom:6px;">Live Website</div>
+        <div style="font-family:'Courier New',monospace; font-weight:700; font-size:13px; color:var(--copper);">pourya-website.vercel.app</div>
+        <div style="font-family:'Inter',sans-serif; font-size:10px; color:rgba(255,255,255,.4); margin-top:3px;">Single HTML file · Global CDN</div>
+      </div>
+
+      <div style="display:flex; flex-direction:column; align-items:center; gap:3px; flex-shrink:0;">
+        <svg width="36" height="14" viewBox="0 0 36 14" fill="none"><path d="M0 7h32M25 2l8 5-8 5" stroke="#B87230" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+        <div style="font-family:'Space Grotesk',sans-serif; font-size:9px; color:rgba(255,255,255,.3); letter-spacing:.08em;">Supabase JS</div>
+      </div>
+
+      <div style="flex:1; background:rgba(30,107,107,.2); border:1.5px solid rgba(30,107,107,.5); padding:16px; text-align:center;">
+        <div style="font-family:'Space Grotesk',sans-serif; font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--teal); margin-bottom:6px;">Supabase</div>
+        <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:13px; color:white;">PostgreSQL</div>
+        <div style="font-family:'Inter',sans-serif; font-size:10px; color:rgba(255,255,255,.4); margin-top:3px;">Forms · Waitlist · Analytics</div>
+      </div>
+    </div>
+
+    <div style="border-top:1px solid rgba(255,255,255,.08); padding-top:14px; display:flex; gap:24px;">
+      <div style="font-family:'Inter',sans-serif; font-size:10.5px; color:rgba(255,255,255,.4);"><span style="color:var(--copper);">→</span> Push to GitHub = automatic redeploy on Vercel</div>
+      <div style="font-family:'Inter',sans-serif; font-size:10.5px; color:rgba(255,255,255,.4);"><span style="color:var(--copper);">→</span> Form submission = row inserted in Supabase instantly</div>
+    </div>
+  </div>
+
+  <!-- Cost breakdown -->
+  <div style="font-family:'Space Grotesk',sans-serif; font-size:10.5px; font-weight:600; letter-spacing:.15em; text-transform:uppercase; color:var(--navy); margin-bottom:12px;">Monthly cost breakdown</div>
+  <table class="data-table">
+    <thead><tr><th>Service</th><th>Plan</th><th>Monthly Cost</th><th>Limits</th></tr></thead>
+    <tbody>
+      <tr><td>GitHub</td><td>Free</td><td style="color:var(--teal); font-weight:700;">$0</td><td>Unlimited public repos</td></tr>
+      <tr><td>Vercel</td><td>Hobby (Free)</td><td style="color:var(--teal); font-weight:700;">$0</td><td>100GB bandwidth / month</td></tr>
+      <tr><td>Supabase</td><td>Free Tier</td><td style="color:var(--teal); font-weight:700;">$0</td><td>500MB DB · 50,000 rows</td></tr>
+      <tr><td><strong>Total</strong></td><td></td><td style="color:var(--teal); font-weight:700;">$0</td><td>Plenty for a personal site</td></tr>
+    </tbody>
+  </table>
+
+  <div class="page-num">08</div>
+</div>
+
+
+<!-- ══════════════════════════════════════
+     PAGE 9 — REUSE CHECKLIST
+══════════════════════════════════════ -->
+<div class="page section-page dark">
+
+  <div class="step-label on-dark">Reusable Guide</div>
+  <div class="rule"></div>
+  <div class="section-h white" style="margin-bottom:12px;">Repeat This for Any Project</div>
+  <p class="body-text white" style="margin-bottom:28px;">This exact workflow works for any personal website or landing page. Follow this checklist in order every time.</p>
+
+  <div class="two-col">
+
+    <div>
+      <div style="font-family:'Space Grotesk',sans-serif; font-size:10.5px; font-weight:600; letter-spacing:.15em; text-transform:uppercase; color:var(--teal); margin-bottom:14px;">Phase 1 — Design</div>
+      <ul style="list-style:none; space-y:8px;">
+        <li style="display:flex; gap:10px; padding:9px 0; border-bottom:1px solid rgba(255,255,255,.08); font-family:'Inter',sans-serif; font-size:12.5px; color:rgba(255,255,255,.7);">
+          <span style="color:var(--copper); flex-shrink:0;">01</span> Gather brand guide (PDF, Figma, or notes)
+        </li>
+        <li style="display:flex; gap:10px; padding:9px 0; border-bottom:1px solid rgba(255,255,255,.08); font-family:'Inter',sans-serif; font-size:12.5px; color:rgba(255,255,255,.7);">
+          <span style="color:var(--copper); flex-shrink:0;">02</span> Extract: colors, fonts, voice, tagline
+        </li>
+        <li style="display:flex; gap:10px; padding:9px 0; border-bottom:1px solid rgba(255,255,255,.08); font-family:'Inter',sans-serif; font-size:12.5px; color:rgba(255,255,255,.7);">
+          <span style="color:var(--copper); flex-shrink:0;">03</span> Define page sections before coding
+        </li>
+        <li style="display:flex; gap:10px; padding:9px 0; border-bottom:1px solid rgba(255,255,255,.08); font-family:'Inter',sans-serif; font-size:12.5px; color:rgba(255,255,255,.7);">
+          <span style="color:var(--copper); flex-shrink:0;">04</span> Choose stack (HTML/Tailwind for simple sites)
+        </li>
+        <li style="display:flex; gap:10px; padding:9px 0; font-family:'Inter',sans-serif; font-size:12.5px; color:rgba(255,255,255,.7);">
+          <span style="color:var(--copper); flex-shrink:0;">05</span> Run /ui-ux-pro-max in Claude Code for guidance
+        </li>
+      </ul>
+
+      <div style="font-family:'Space Grotesk',sans-serif; font-size:10.5px; font-weight:600; letter-spacing:.15em; text-transform:uppercase; color:var(--teal); margin:20px 0 14px;">Phase 2 — Build</div>
+      <ul style="list-style:none;">
+        <li style="display:flex; gap:10px; padding:9px 0; border-bottom:1px solid rgba(255,255,255,.08); font-family:'Inter',sans-serif; font-size:12.5px; color:rgba(255,255,255,.7);">
+          <span style="color:var(--copper); flex-shrink:0;">06</span> Build index.html with Tailwind CDN
+        </li>
+        <li style="display:flex; gap:10px; padding:9px 0; border-bottom:1px solid rgba(255,255,255,.08); font-family:'Inter',sans-serif; font-size:12.5px; color:rgba(255,255,255,.7);">
+          <span style="color:var(--copper); flex-shrink:0;">07</span> Test responsive at 375px, 768px, 1440px
+        </li>
+        <li style="display:flex; gap:10px; padding:9px 0; font-family:'Inter',sans-serif; font-size:12.5px; color:rgba(255,255,255,.7);">
+          <span style="color:var(--copper); flex-shrink:0;">08</span> Check accessibility: alt text, focus states, contrast
+        </li>
+      </ul>
+    </div>
+
+    <div>
+      <div style="font-family:'Space Grotesk',sans-serif; font-size:10.5px; font-weight:600; letter-spacing:.15em; text-transform:uppercase; color:var(--teal); margin-bottom:14px;">Phase 3 — Ship</div>
+      <ul style="list-style:none;">
+        <li style="display:flex; gap:10px; padding:9px 0; border-bottom:1px solid rgba(255,255,255,.08); font-family:'Inter',sans-serif; font-size:12.5px; color:rgba(255,255,255,.7);">
+          <span style="color:var(--copper); flex-shrink:0;">09</span> <code style="font-size:11px; background:rgba(255,255,255,.08); padding:1px 5px; color:var(--copper);">git init</code> in project folder
+        </li>
+        <li style="display:flex; gap:10px; padding:9px 0; border-bottom:1px solid rgba(255,255,255,.08); font-family:'Inter',sans-serif; font-size:12.5px; color:rgba(255,255,255,.7);">
+          <span style="color:var(--copper); flex-shrink:0;">10</span> Create .gitignore (exclude sensitive files)
+        </li>
+        <li style="display:flex; gap:10px; padding:9px 0; border-bottom:1px solid rgba(255,255,255,.08); font-family:'Inter',sans-serif; font-size:12.5px; color:rgba(255,255,255,.7);">
+          <span style="color:var(--copper); flex-shrink:0;">11</span> <code style="font-size:11px; background:rgba(255,255,255,.08); padding:1px 5px; color:var(--copper);">gh repo create</code> → push to GitHub
+        </li>
+        <li style="display:flex; gap:10px; padding:9px 0; border-bottom:1px solid rgba(255,255,255,.08); font-family:'Inter',sans-serif; font-size:12.5px; color:rgba(255,255,255,.7);">
+          <span style="color:var(--copper); flex-shrink:0;">12</span> <code style="font-size:11px; background:rgba(255,255,255,.08); padding:1px 5px; color:var(--copper);">npx vercel --prod</code> → site is live
+        </li>
+        <li style="display:flex; gap:10px; padding:9px 0; font-family:'Inter',sans-serif; font-size:12.5px; color:rgba(255,255,255,.7);">
+          <span style="color:var(--copper); flex-shrink:0;">13</span> Write README.md for future reference
+        </li>
+      </ul>
+
+      <div style="font-family:'Space Grotesk',sans-serif; font-size:10.5px; font-weight:600; letter-spacing:.15em; text-transform:uppercase; color:var(--teal); margin:20px 0 14px;">Phase 4 — Connect Backend</div>
+      <ul style="list-style:none;">
+        <li style="display:flex; gap:10px; padding:9px 0; border-bottom:1px solid rgba(255,255,255,.08); font-family:'Inter',sans-serif; font-size:12.5px; color:rgba(255,255,255,.7);">
+          <span style="color:var(--copper); flex-shrink:0;">14</span> Create Supabase project, get publishable key
+        </li>
+        <li style="display:flex; gap:10px; padding:9px 0; border-bottom:1px solid rgba(255,255,255,.08); font-family:'Inter',sans-serif; font-size:12.5px; color:rgba(255,255,255,.7);">
+          <span style="color:var(--copper); flex-shrink:0;">15</span> Create tables with RLS + anon insert policy
+        </li>
+        <li style="display:flex; gap:10px; padding:9px 0; font-family:'Inter',sans-serif; font-size:12.5px; color:rgba(255,255,255,.7);">
+          <span style="color:var(--copper); flex-shrink:0;">16</span> Add Supabase JS CDN + <code style="font-size:11px; background:rgba(255,255,255,.08); padding:1px 5px; color:var(--copper);">createClient()</code> to HTML
+        </li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="page-num white">09</div>
+</div>
+
+
+<!-- ══════════════════════════════════════
+     PAGE 10 — CLOSING / NEXT STEPS
+══════════════════════════════════════ -->
+<div class="page cover" style="justify-content:space-between;">
+
+  <!-- Top bar -->
+  <div style="display:flex; align-items:center; justify-content:space-between;">
+    <div style="font-family:'Space Grotesk',sans-serif; font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:rgba(255,255,255,.3);">Summary</div>
+    <div style="font-family:'Space Grotesk',sans-serif; font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:rgba(255,255,255,.3);">Page 10 / 10</div>
+  </div>
+
+  <!-- Center -->
+  <div>
+    <div style="font-family:'Space Grotesk',sans-serif; font-size:10px; letter-spacing:.24em; text-transform:uppercase; color:var(--teal); margin-bottom:20px;">What was built</div>
+
+    <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:36px; color:white; line-height:1.1; margin-bottom:28px;">
+      One file.<br>Zero servers.<br>Fully live.
+    </div>
+
+    <div style="width:48px; height:3px; background:var(--copper); margin-bottom:28px;"></div>
+
+    <!-- Final stats row -->
+    <div style="display:grid; grid-template-columns:repeat(6, 1fr); gap:14px; margin-bottom:40px;">
+      <div style="text-align:center; padding:16px 8px; background:rgba(255,255,255,.06); border-top:2px solid var(--teal);">
+        <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:22px; color:var(--copper);">1</div>
+        <div style="font-family:'Inter',sans-serif; font-size:9.5px; color:rgba(255,255,255,.4); margin-top:4px; line-height:1.4;">HTML file</div>
+      </div>
+      <div style="text-align:center; padding:16px 8px; background:rgba(255,255,255,.06); border-top:2px solid var(--teal);">
+        <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:22px; color:var(--copper);">8</div>
+        <div style="font-family:'Inter',sans-serif; font-size:9.5px; color:rgba(255,255,255,.4); margin-top:4px; line-height:1.4;">Page sections</div>
+      </div>
+      <div style="text-align:center; padding:16px 8px; background:rgba(255,255,255,.06); border-top:2px solid var(--copper);">
+        <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:22px; color:var(--copper);">3</div>
+        <div style="font-family:'Inter',sans-serif; font-size:9.5px; color:rgba(255,255,255,.4); margin-top:4px; line-height:1.4;">DB tables</div>
+      </div>
+      <div style="text-align:center; padding:16px 8px; background:rgba(255,255,255,.06); border-top:2px solid var(--copper);">
+        <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:22px; color:var(--copper);">6</div>
+        <div style="font-family:'Inter',sans-serif; font-size:9.5px; color:rgba(255,255,255,.4); margin-top:4px; line-height:1.4;">Tools used</div>
+      </div>
+      <div style="text-align:center; padding:16px 8px; background:rgba(255,255,255,.06); border-top:2px solid var(--teal);">
+        <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:22px; color:var(--copper);">$0</div>
+        <div style="font-family:'Inter',sans-serif; font-size:9.5px; color:rgba(255,255,255,.4); margin-top:4px; line-height:1.4;">Monthly cost</div>
+      </div>
+      <div style="text-align:center; padding:16px 8px; background:rgba(255,255,255,.06); border-top:2px solid var(--teal);">
+        <div style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:22px; color:var(--copper);">&lt;2h</div>
+        <div style="font-family:'Inter',sans-serif; font-size:9.5px; color:rgba(255,255,255,.4); margin-top:4px; line-height:1.4;">Total time</div>
+      </div>
+    </div>
+
+    <!-- Next steps -->
+    <div style="background:rgba(255,255,255,.06); border-left:3px solid var(--copper); padding:20px 24px;">
+      <div style="font-family:'Space Grotesk',sans-serif; font-size:10px; font-weight:600; letter-spacing:.18em; text-transform:uppercase; color:var(--teal); margin-bottom:12px;">Possible next steps</div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+        <div style="font-family:'Inter',sans-serif; font-size:12px; color:rgba(255,255,255,.6); display:flex; gap:8px;"><span style="color:var(--copper);">→</span> Add a custom domain (e.g. pouryagheitarani.com)</div>
+        <div style="font-family:'Inter',sans-serif; font-size:12px; color:rgba(255,255,255,.6); display:flex; gap:8px;"><span style="color:var(--copper);">→</span> Add a case studies / portfolio section</div>
+        <div style="font-family:'Inter',sans-serif; font-size:12px; color:rgba(255,255,255,.6); display:flex; gap:8px;"><span style="color:var(--copper);">→</span> Build an admin dashboard to view form submissions</div>
+        <div style="font-family:'Inter',sans-serif; font-size:12px; color:rgba(255,255,255,.6); display:flex; gap:8px;"><span style="color:var(--copper);">→</span> Add email notifications via Supabase triggers</div>
+        <div style="font-family:'Inter',sans-serif; font-size:12px; color:rgba(255,255,255,.6); display:flex; gap:8px;"><span style="color:var(--copper);">→</span> Migrate to Next.js if dynamic content grows</div>
+        <div style="font-family:'Inter',sans-serif; font-size:12px; color:rgba(255,255,255,.6); display:flex; gap:8px;"><span style="color:var(--copper);">→</span> Set up Google Analytics or Plausible</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div style="display:flex; justify-content:space-between; align-items:flex-end; padding-top:20px; border-top:1px solid rgba(255,255,255,.1);">
+    <div>
+      <div style="font-family:'DM Serif Display',serif; font-style:italic; font-size:16px; color:var(--copper);">Grounded in Engineering. Driven by Intelligence.</div>
+      <div style="font-family:'Inter',sans-serif; font-size:10px; color:rgba(255,255,255,.3); margin-top:4px;">Pourya Gheitarani · 2025</div>
+    </div>
+    <div style="text-align:right;">
+      <div style="font-family:'Courier New',monospace; font-size:10px; color:rgba(255,255,255,.3);">pourya-website.vercel.app</div>
+      <div style="font-family:'Courier New',monospace; font-size:10px; color:rgba(255,255,255,.3);">github.com/Pourya-AIC/pourya-website</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Print instruction -->
+<div style="text-align:center; padding:24px; font-family:'Space Grotesk',sans-serif; font-size:12px; color:#888; letter-spacing:.1em;">
+  To save as PDF: <strong>Ctrl + P</strong> (or Cmd + P on Mac) → <strong>Save as PDF</strong> · Set paper size to A4 · Margins: None
+</div>
+
+</body>
+</html>
